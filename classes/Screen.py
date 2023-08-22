@@ -8,7 +8,7 @@ class Screen:
     def __init__(self):
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.set_window_caption()
-        self.set_background_color()
+        self.set_background_color(GREEN)
         self.bushes = []
         self.insert_rnd_bushes()
         pygame.font.init()
@@ -21,9 +21,9 @@ class Screen:
         """Sets a caption to game window"""
         pygame.display.set_caption(WINDOW_CAPTION)
 
-    def set_background_color(self):
+    def set_background_color(self, color):
         """Sets a background color"""
-        self.screen.fill(GREEN)
+        self.screen.fill(color)
 
     def draw_object(self, img_path, location, size):
         """Draws an object to screen"""
@@ -59,3 +59,12 @@ class Screen:
         location = (FLAG_X, FLAG_Y)
         size = (FLAG_WIDTH, FLAG_HEIGHT)
         self.draw_object(FLAG_IMG_PATH, location, size)
+
+    def draw_line_horizontal(self, y):
+        """Draws a horizontal line"""
+        pygame.draw.line(self.screen, GREEN, (MIN_X, y), (MAX_X, y), LINE_WIDTH)
+
+    def draw_line_vertical(self, x):
+        """Draws a vertical line"""
+        pygame.draw.line(self.screen, GREEN, (x, MIN_Y), (x, MAX_Y), LINE_WIDTH)
+
