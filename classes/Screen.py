@@ -78,8 +78,5 @@ class Screen:
         size = (MINE_WIDTH, MINE_HEIGHT)
         for mine_location in mines:
             # Display each mine
-            self.draw_object(MINE_IMG_PATH,mine_location,size)
-
-
-
+            self.draw_object(MINE_IMG_PATH, mine_location, size)
 

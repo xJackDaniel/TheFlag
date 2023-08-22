@@ -66,3 +66,13 @@ class Soldier:
                 moved = True
         if moved:
             game_field.update_soldier_location(self)
+
+    def get_legs_index(self):
+        """Returns the index of the soldier legs"""
+        indexes = []
+        for col in range(SOLDIER_WIDTH_SQUARES):
+            y_square = self.y // SQUARE_SIZE
+            x_square = self.x // SQUARE_SIZE
+            indexes.append([y_square + SOLDIER_HEIGHT_SQUARES - 1, x_square+col])
+        return indexes
+
