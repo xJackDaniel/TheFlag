@@ -38,7 +38,7 @@ def main():
                     soldier.move_y(up=True)
 
         # Display the regular screen
-        screens.display_regular_screen(soldier)
+        screens.display_mine_screen(soldier)
 
         pygame.display.update()
 

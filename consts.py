@@ -34,6 +34,7 @@ BUSH_LOCATION_KEY = "location"
 BUSH_SIZE_KEY = "size"
 
 SOLDIER_IMG_PATH = "img/soldier.png"
+SOLDIER_MINE_SCREEN_IMG_PATH = "img/soldier_nigth.png"
 START_SOLDIER_X = 0
 START_SOLDIER_Y = 0
 SOLDIER_WIDTH_SQUARES = 2

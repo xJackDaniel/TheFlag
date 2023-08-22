@@ -27,6 +27,10 @@ class Soldier:
         """Returns the y of the soldier"""
         return self.y
 
+    def change_soldier_mine_screen(self):
+        """"""
+        self.img_path = SOLDIER_MINE_SCREEN_IMG_PATH
+
     def draw_soldier(self):
         """Draws the soldier to the screen"""
         location = (self.x, self.y)

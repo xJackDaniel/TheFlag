@@ -16,19 +16,20 @@ def display_regular_screen(soldier):
     # Draw the welcome text
     location_welcome = (WELCOME_X, WELCOME_Y)
     screenObj.draw_text(text=WELCOME_MESSAGE, location=location_welcome,
-                        size=WELCOME_SIZE, font=WELCOME_FONT, color=WHITE)  # Draw the soldier
+                        size=WELCOME_SIZE, font=WELCOME_FONT, color=WHITE)
+    # Draw the soldier
     soldier.draw_soldier()
 
-def display_mine_screen():
+def display_mine_screen(soldier):
     """crate mine showing screen on
      top of the original screen"""
     # change the screen color to white
-    screenObj.set_background_color(WHITE)
-    # TODO: crate lines for visualises a matrix
-    # TODO: ליצור מטריקס שמצייר קו וכול פעם מעלה מיקום בפיקסל ,
-    #  לאחר שמסיים להתהפך ולבצא את אותו דבר אנכית
+    screenObj.set_background_color(BLACK)
+    # Draw lines
     for col in range(COLS_COUNT):
         screenObj.draw_line_vertical((col + 1) * SQUARE_SIZE)
-
     for row in range(ROWS_COUNT):
         screenObj.draw_line_horizontal((row + 1) * SQUARE_SIZE)
+    # Draw the soldier
+    soldier.change_soldier_mine_screen()
+    soldier.draw_soldier()
