@@ -37,7 +37,7 @@ class Screen:
             rnd_y = random.randint(MIN_Y, MAX_Y)
             # Bush size and location
             location = (rnd_x, rnd_y)
-            size = (SQUARE_SIZE, SQUARE_SIZE)
+            size = BUSH_SIZE
             # Create the bush dict
             bush_dict = {BUSH_LOCATION_KEY: location, BUSH_SIZE_KEY: size}
             self.bushes.append(bush_dict)

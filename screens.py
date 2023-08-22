@@ -1,6 +1,7 @@
 from classes.Screen import Screen
 
 screenObj = Screen()
+screen = screenObj.get_screen()
 
 def display_regualr_screen():
     """Creates the regular display screen"""

@@ -20,10 +20,9 @@ MAX_X = WINDOW_WIDTH
 MIN_Y = 0
 MAX_Y = WINDOW_HEIGHT
 
-BUSH_IMG_PATH="img/grass.png"
-
+BUSH_IMG_PATH = "img/grass.png"
 BUSH_COUNT = 20
-
+BUSH_SIZE = (SQUARE_SIZE * 2, SQUARE_SIZE * 2)
 BUSH_LOCATION_KEY = "location"
 BUSH_SIZE_KEY = "size"
 

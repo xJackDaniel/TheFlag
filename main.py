@@ -24,10 +24,11 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        pygame.display.update()
 
-    # Display the regular screen
-    screens.display_regualr_screen()
+        # Display the regular screen
+        screens.display_regualr_screen()
+
+        pygame.display.update()
 
     pygame.quit()
 
