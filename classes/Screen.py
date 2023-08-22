@@ -11,6 +11,7 @@ class Screen:
         self.set_background_color()
         self.bushes = []
         self.insert_rnd_bushes()
+        pygame.font.init()
 
     def get_screen(self):
         """Returns the pygame screen"""

@@ -1,4 +1,5 @@
 from classes.Screen import Screen
+from consts import *
 
 screenObj = Screen()
 
@@ -10,6 +11,9 @@ def display_regular_screen(soldier):
     screenObj.draw_rnd_bushes()
     # Draw the flag
     screenObj.draw_flag()
-    # Draw the soldier
+    # Draw the welcome text
+    location_welcome = (WELCOME_X, WELCOME_Y)
+    screenObj.draw_text(text=WELCOME_MESSAGE, location=location_welcome,
+                        size=WELCOME_SIZE, font=WELCOME_FONT, color=WHITE)  # Draw the soldier
     soldier.draw_soldier()
 
