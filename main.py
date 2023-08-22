@@ -2,6 +2,7 @@ import pygame
 from consts import *
 from classes.Screen import Screen
 from classes.GameField import GameField
+from classes.Soldier import Soldier
 import screens
 
 # Create screen
@@ -10,6 +11,8 @@ screen = screenObj.get_screen()
 # Create board matrix
 game_field = GameField()
 board = game_field.get_board()
+# Create soldier
+soldier = Soldier()
 
 
 def main():
@@ -25,7 +28,7 @@ def main():
                 running = False
 
         # Display the regular screen
-        screens.display_regular_screen()
+        screens.display_regular_screen(soldier)
 
         pygame.display.update()
 

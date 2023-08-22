@@ -30,6 +30,12 @@ class Screen:
         img = pygame.transform.scale(original_img, size)
         self.screen.blit(img, location)
 
+    def draw_text(self, text, color, size, font, location):
+        """Draw text to screen"""
+        txt_font = pygame.font.SysFont(font, size)
+        text_surface = txt_font.render(text, False, color)
+        self.screen.blit(text_surface, location)
+
     def insert_rnd_bushes(self):
         """Creates the random bushes dict"""
         for bush in range(BUSH_COUNT):
@@ -47,3 +53,8 @@ class Screen:
         for bush in self.bushes:
             self.draw_object(BUSH_IMG_PATH, bush.get(BUSH_LOCATION_KEY), bush.get(BUSH_SIZE_KEY))
 
+    def draw_flag(self):
+        """Draws the flag"""
+        location = (FLAG_X, FLAG_Y)
+        size = (FLAG_WIDTH, FLAG_HEIGHT)
+        self.draw_object(FLAG_IMG_PATH, location, size)
