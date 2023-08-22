@@ -1,9 +1,6 @@
-import pygame.draw
-
-from classes.Screen import Screen
+from main import screenObj
 from consts import *
 
-screenObj = Screen()
 
 def display_regular_screen(soldier):
     """Creates the regular display screen"""
@@ -20,6 +17,7 @@ def display_regular_screen(soldier):
     # Draw the soldier
     soldier.change_soldier_image(SOLDIER_IMG_PATH)
     soldier.draw_soldier()
+
 
 def display_mine_screen(soldier):
     """crate mine showing screen on

@@ -1,5 +1,4 @@
 import random
-
 from consts import *
 
 
@@ -28,11 +27,11 @@ class GameField:
         """Inserting mines to the grid"""
         def check_x_safe_zone(x):
             """Returns True/False if x is in the safe zone"""
-            return SAFE_ZONE_X_START < x < SAFE_ZONE_X_END
+            return SAFE_ZONE_X_START <= x < SAFE_ZONE_X_END
 
         def check_y_safe_zone(y):
             """Returns True/False if y is in the safe zone"""
-            return SAFE_ZONE_Y_START < y < SAFE_ZONE_Y_END
+            return SAFE_ZONE_Y_START <= y < SAFE_ZONE_Y_END
 
         for mine in range(MINE_COUNT):
             valid_mine = False
@@ -91,6 +90,7 @@ class GameField:
         soldier_end_col_square = soldier_start_col_square + SOLDIER_WIDTH_SQUARES
 
         # Update soldier position in matrix
+        self.check_lose(soldier)
         self.insert_object(soldier_start_col_square, soldier_end_col_square, soldier_start_row_square, soldier_end_row_square, SOLDIER)
 
         # print('\n'.join(map(','.join, self.board)))

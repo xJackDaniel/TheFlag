@@ -1,22 +1,18 @@
-import pygame
 from consts import *
-from classes.Screen import Screen
-from classes.GameField import GameField
-
-
-ScreenObj = Screen()
-game_field = GameField()
 
 # TODO: Add notes to class
 class Soldier:
-    def __init__(self):
+    def __init__(self, screen, game_field):
         self.img_path = SOLDIER_IMG_PATH
         self.x = START_SOLDIER_X
         self.y = START_SOLDIER_Y
         self.width = SOLDIER_WIDTH
         self.height = SOLDIER_HEIGHT
+        # Classes
+        self.screenObj = screen
+        self.game_field = game_field
         # Insert the soldier to board
-        game_field.update_soldier_location(self)
+        self.game_field.update_soldier_location(self)
 
 
     def get_x(self):
@@ -35,7 +31,7 @@ class Soldier:
         """Draws the soldier to the screen"""
         location = (self.x, self.y)
         size = (self.width, self.height)
-        ScreenObj.draw_object(self.img_path, location, size)
+        self.screenObj.draw_object(self.img_path, location, size)
 
     def move_x(self, right: bool):
         """updating soldier position - only right and left """
@@ -50,7 +46,7 @@ class Soldier:
                 self.x -= STEP_SIZE
                 moved = True
         if moved:
-            game_field.update_soldier_location(self)
+            self.game_field.update_soldier_location(self)
 
     def move_y(self, up: bool):
         """updating soldier position - only up and down """
@@ -65,7 +61,7 @@ class Soldier:
                 self.y += STEP_SIZE
                 moved = True
         if moved:
-            game_field.update_soldier_location(self)
+            self.game_field.update_soldier_location(self)
 
     def get_legs_index(self):
         """Returns the index of the soldier legs"""
@@ -73,7 +69,7 @@ class Soldier:
         for col in range(SOLDIER_WIDTH_SQUARES):
             y_square = self.y // SQUARE_SIZE
             x_square = self.x // SQUARE_SIZE
-            indexes.append([x_square+col, y_square + SOLDIER_HEIGHT_SQUARES - 1,])
+            indexes.append([x_square+col, y_square + SOLDIER_HEIGHT_SQUARES - 1])
         return indexes
 
     def get_body_index(self):
@@ -83,7 +79,7 @@ class Soldier:
             for col in range(SOLDIER_WIDTH_SQUARES):
                 y_square = self.y // SQUARE_SIZE
                 x_square = self.x // SQUARE_SIZE
-                indexes.append([x_square+col, y_square+row, ])
+                indexes.append([x_square+col, y_square+row])
         # Remove the legs indexes
         leg_indexes = self.get_legs_index()
         for leg_index in leg_indexes:

@@ -1,18 +1,15 @@
 import pygame
 from consts import *
 import random
-from classes.GameField import GameField
-
-game_field = GameField()
-
 
 # TODO: Add notes to class
 class Screen:
-    def __init__(self):
+    def __init__(self, game_field):
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.set_window_caption()
         self.set_background_color(GREEN)
         self.bushes = []
+        self.game_field = game_field
         self.insert_rnd_bushes()
         pygame.font.init()
 
@@ -74,7 +71,7 @@ class Screen:
     def draw_mines(self):
         """Draws the mines on the screen"""
         # Get the mines location list
-        mines = game_field.get_mines()
+        mines = self.game_field.get_mines()
         size = (MINE_WIDTH, MINE_HEIGHT)
         for mine_location in mines:
             # Display each mine

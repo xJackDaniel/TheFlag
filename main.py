@@ -5,14 +5,15 @@ from classes.GameField import GameField
 from classes.Soldier import Soldier
 import screens
 
-# Create screen
-screenObj = Screen()
-screen = screenObj.get_screen()
+
 # Create board matrix
 game_field = GameField()
 board = game_field.get_board()
+# Create screen
+screenObj = Screen(game_field)
+screen = screenObj.get_screen()
 # Create soldier
-soldier = Soldier()
+soldier = Soldier(screenObj, game_field)
 
 
 def main():
@@ -52,15 +53,15 @@ def main():
         # Display the regular screen
         screens.display_regular_screen(soldier)
 
-        # Check lose
-        if game_field.check_lose(soldier):
-            # Update image to exploding
-            soldier.change_soldier_image(SOLDIER_EXPLODED_IMG_PATH)
-            screens.display_regular_screen(soldier)
-            pygame.display.update()
-            # Delay to end game
-            pygame.time.wait(END_GAME_DELAY)
-            running = False
+        # # Check lose
+        # if game_field.check_lose(soldier):
+        #     # Update image to exploding
+        #     soldier.change_soldier_image(SOLDIER_EXPLODED_IMG_PATH)
+        #     screens.display_regular_screen(soldier)
+        #     pygame.display.update()
+        #     # Delay to end game
+        #     pygame.time.wait(END_GAME_DELAY)
+        #     running = False
 
         pygame.display.update()
 
