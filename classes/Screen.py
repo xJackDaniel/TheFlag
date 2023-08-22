@@ -1,6 +1,9 @@
 import pygame
 from consts import *
 import random
+from classes.GameField import GameField
+
+game_field = GameField()
 
 
 # TODO: Add notes to class
@@ -67,4 +70,14 @@ class Screen:
     def draw_line_vertical(self, x):
         """Draws a vertical line"""
         pygame.draw.line(self.screen, GREEN, (x, MIN_Y), (x, MAX_Y), LINE_WIDTH)
+
+    def draw_mines(self):
+        """"""
+        mines = game_field.get_mines()
+        size = (MINE_WIDTH, MINE_HEIGHT)
+        for mine_location in mines:
+            self.draw_object(MINE_IMG_PATH,mine_location,size)
+
+
+
 

@@ -34,3 +34,5 @@ def display_mine_screen(soldier):
     # Draw the soldier
     soldier.change_soldier_image(SOLDIER_MINE_SCREEN_IMG_PATH)
     soldier.draw_soldier()
+    # Draw mines
+    screenObj.draw_mines()
