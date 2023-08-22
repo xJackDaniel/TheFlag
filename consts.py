@@ -24,3 +24,6 @@ BUSH_IMG_PATH="img/grass.png"
 
 BUSH_COUNT = 20
 
+BUSH_LOCATION_KEY = "location"
+BUSH_SIZE_KEY = "size"
+
