@@ -20,6 +20,10 @@ class GameField:
         """Returns the board"""
         return self.board
 
+    def get_mines(self):
+        """Returns the mines"""
+        return self.mines
+
     def insert_mines(self):
         """Inserting mines to the grid"""
         def check_x_safe_zone(x):
@@ -43,7 +47,8 @@ class GameField:
                         mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
                 else:
                     valid_mine = True
-                    # Add mine to screen
+                    # Add mine to screen and to list
+                    self.mines.append((mine_col_x, mine_row_y))
                     self.insert_mine_position(mine_col_x, mine_row_y)
 
     def insert_object(self, start_x, end_x, start_y, end_y, value):
