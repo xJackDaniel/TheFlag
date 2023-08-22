@@ -25,7 +25,7 @@ def main():
                 running = False
 
         # Display the regular screen
-        screens.display_regualr_screen()
+        screens.display_regular_screen()
 
         pygame.display.update()
 
