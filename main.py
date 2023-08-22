@@ -1,10 +1,14 @@
 import pygame
 from consts import *
 from classes.Screen import Screen
+from classes.GameField import GameField
 
+# Create screen
 screenObj = Screen()
 screen = screenObj.get_screen()
-
+# Create board matrix
+game_field = GameField()
+board = game_field.get_board()
 
 def main():
     clock = pygame.time.Clock()
