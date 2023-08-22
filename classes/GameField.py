@@ -10,6 +10,7 @@ class GameField:
         self.mines = []
         self.build_empty_board()
         self.insert_flag_position()
+        self.insert_mines()
 
     def build_empty_board(self):
         """Building an empty matrix"""
@@ -21,20 +22,46 @@ class GameField:
 
     def insert_mines(self):
         """Inserting mines to the grid"""
-        for mine in range(MINE_COUNT):
+        def check_x_safe_zone(x):
+            """Returns True/False if x is in the safe zone"""
+            return SAFE_ZONE_X_START < x < SAFE_ZONE_X_END
 
+        def check_y_safe_zone(y):
+            """Returns True/False if y is in the safe zone"""
+            return SAFE_ZONE_Y_START < y < SAFE_ZONE_Y_END
+
+        for mine in range(MINE_COUNT):
             valid_mine = False
-            while not(valid_mine):
-                mine_col_x = random.randint(MIN_X, MAX_X-MINE_WIDTH)
-                mine_row_y = random.randint(MIN_Y, MAX_Y - MINE_WIDTH)
-                if (SAFE_ZONE_X_START < mine_col_x < SAFE_ZONE_X_END) and (SAFE_ZONE_Y_START < mine_row_y < SAFE_ZONE_Y_END):
-                    # The mine is not valid
-                    pass
+            while not valid_mine:
+                mine_col_x = random.randrange(MIN_X, MAX_X-MINE_WIDTH, SQUARE_SIZE)
+                mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
+                while check_x_safe_zone(mine_col_x) or check_y_safe_zone(mine_row_y):
+                    # The mine is not valid - Check if x or y is not valid
+                    if check_x_safe_zone(mine_col_x):
+                        mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
+                    else:
+                        mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
                 else:
                     valid_mine = True
-                    # TODO: Add mine to screen
+                    # Add mine to screen
+                    self.insert_mine_position(mine_col_x, mine_row_y)
 
+    def insert_object(self, start_x, end_x, start_y, end_y, value):
+        """Inserts a object to the matrix"""
+        for row in range(start_y, end_y):
+            for col in range(start_x, end_x):
+                self.board[row][col] = value
 
+    def insert_mine_position(self, x, y):
+        """Insert the mine position to matrix"""
+        # Get the flag position
+        mine_start_col_square = x // SQUARE_SIZE
+        mine_start_row_square = y // SQUARE_SIZE
+        mine_end_row_square = mine_start_row_square + MINE_HEIGHT_SQUARES
+        mine_end_col_square = mine_start_col_square + MINE_WIDTH_SQUARES
+
+        # Update mine position in matrix
+        self.insert_object(mine_start_col_square, mine_end_col_square, mine_start_row_square, mine_end_row_square, MINE)
 
     def insert_flag_position(self):
         """Insert the flag position to matrix"""
@@ -44,10 +71,8 @@ class GameField:
         flag_end_row_square = flag_start_row_square + FLAG_HEIGHT_SQUARES
         flag_end_col_square = flag_start_col_square + FLAG_WIDTH_SQUARES
 
-        # Update soldier position in matrix
-        for row in range(flag_start_row_square, flag_end_row_square):
-            for col in range(flag_start_col_square, flag_end_col_square):
-                self.board[row][col] = FLAG
+        # Update flag position in matrix
+        self.insert_object(flag_start_col_square, flag_end_col_square, flag_start_row_square, flag_end_row_square, FLAG)
 
     def update_soldier_location(self, soldier):
         """Updates the soldier location in the grid"""
@@ -61,9 +86,7 @@ class GameField:
         soldier_end_col_square = soldier_start_col_square + SOLDIER_WIDTH_SQUARES
 
         # Update soldier position in matrix
-        for row in range(soldier_start_row_square, soldier_end_row_square):
-            for col in range(soldier_start_col_square, soldier_end_col_square):
-                self.board[row][col] = SOLDIER
+        self.insert_object(soldier_start_col_square, soldier_end_col_square, soldier_start_row_square, soldier_end_row_square, SOLDIER)
 
-        # print('\n'.join(map(''.join, self.board)))
+        # print('\n'.join(map(','.join, self.board)))
         # print()

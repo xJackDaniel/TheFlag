@@ -18,6 +18,7 @@ def display_regular_screen(soldier):
     screenObj.draw_text(text=WELCOME_MESSAGE, location=location_welcome,
                         size=WELCOME_SIZE, font=WELCOME_FONT, color=WHITE)
     # Draw the soldier
+    soldier.change_soldier_image(SOLDIER_IMG_PATH)
     soldier.draw_soldier()
 
 def display_mine_screen(soldier):
@@ -31,5 +32,5 @@ def display_mine_screen(soldier):
     for row in range(ROWS_COUNT):
         screenObj.draw_line_horizontal((row + 1) * SQUARE_SIZE)
     # Draw the soldier
-    soldier.change_soldier_mine_screen()
+    soldier.change_soldier_image(SOLDIER_MINE_SCREEN_IMG_PATH)
     soldier.draw_soldier()

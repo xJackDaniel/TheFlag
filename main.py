@@ -17,6 +17,7 @@ soldier = Soldier()
 
 def main():
     clock = pygame.time.Clock()
+    mine_screen = False
 
     running = True
     while running:
@@ -26,9 +27,20 @@ def main():
             # Handling all the events
             if event.type == pygame.QUIT:
                 running = False
-            else:
+            elif not mine_screen:
                 key_input = pygame.key.get_pressed()
-                if key_input[pygame.K_LEFT]:
+                # If enter - mine screen
+                if key_input[pygame.K_RETURN]:
+                    mine_screen = True
+                    # Display the mine screen for x seconds
+                    screens.display_mine_screen(soldier)
+                    # Update the display
+                    pygame.display.update()
+                    # Delay the mine screen
+                    pygame.time.wait(MINE_SCREEN_DELAY)
+                    # Return to regular screen
+                    mine_screen = False
+                elif key_input[pygame.K_LEFT]:
                     soldier.move_x(right=False)
                 elif key_input[pygame.K_RIGHT]:
                     soldier.move_x(right=True)
@@ -38,7 +50,7 @@ def main():
                     soldier.move_y(up=True)
 
         # Display the regular screen
-        screens.display_mine_screen(soldier)
+        screens.display_regular_screen(soldier)
 
         pygame.display.update()
 
