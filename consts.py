@@ -12,3 +12,5 @@ GREEN = (67, 161, 68)
 
 FPS = 60
 
+EMPTY = "EMPTY"
+
