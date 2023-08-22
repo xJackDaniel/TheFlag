@@ -52,7 +52,7 @@ class GameField:
                     self.insert_mine_position(mine_col_x, mine_row_y)
 
     def insert_object(self, start_x, end_x, start_y, end_y, value):
-        """Inserts a object to the matrix"""
+        """Inserts an object to the matrix"""
         for row in range(start_y, end_y):
             for col in range(start_x, end_x):
                 self.board[row][col] = value

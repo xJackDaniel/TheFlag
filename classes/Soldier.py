@@ -78,7 +78,7 @@ class Soldier:
 
     def get_body_index(self):
         """Returns the index of the soldier body"""
-        indexes=[]
+        indexes = []
         for row in range(SOLDIER_HEIGHT_SQUARES):
             for col in range(SOLDIER_WIDTH_SQUARES):
                 y_square = self.y // SQUARE_SIZE
