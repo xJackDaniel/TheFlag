@@ -95,3 +95,15 @@ class GameField:
 
         # print('\n'.join(map(','.join, self.board)))
         # print()
+
+    def check_lose(self, soldier):
+        """Checks if one of the soldier legs touched a mine"""
+        legs_indexes = soldier.get_legs_index()
+        # Check if one of the legs is mine
+        for leg_index in legs_indexes:
+            leg_col = leg_index[X_INDEX]
+            leg_row = leg_index[Y_INDEX]
+            if self.board[leg_row][leg_col] == MINE:
+                return True
+        return False
+

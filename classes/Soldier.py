@@ -73,8 +73,9 @@ class Soldier:
         for col in range(SOLDIER_WIDTH_SQUARES):
             y_square = self.y // SQUARE_SIZE
             x_square = self.x // SQUARE_SIZE
-            indexes.append([y_square + SOLDIER_HEIGHT_SQUARES - 1, x_square+col])
+            indexes.append([x_square+col, y_square + SOLDIER_HEIGHT_SQUARES - 1,])
         return indexes
+
     def get_body_index(self):
         """Returns the index of the soldier body"""
         indexes=[]
@@ -82,14 +83,11 @@ class Soldier:
             for col in range(SOLDIER_WIDTH_SQUARES):
                 y_square = self.y // SQUARE_SIZE
                 x_square = self.x // SQUARE_SIZE
-                indexes.append([y_square+row, x_square+col])
+                indexes.append([x_square+col, y_square+row, ])
         # Remove the legs indexes
         leg_indexes = self.get_legs_index()
         for leg_index in leg_indexes:
             indexes.remove(leg_index)
         return indexes
-
-
-
 
 
