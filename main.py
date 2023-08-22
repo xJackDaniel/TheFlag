@@ -24,7 +24,6 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-
         # Display the regular screen
         screens.display_regualr_screen()
 
