@@ -72,10 +72,12 @@ class Screen:
         pygame.draw.line(self.screen, GREEN, (x, MIN_Y), (x, MAX_Y), LINE_WIDTH)
 
     def draw_mines(self):
-        """"""
+        """Draws the mines on the screen"""
+        # Get the mines location list
         mines = game_field.get_mines()
         size = (MINE_WIDTH, MINE_HEIGHT)
         for mine_location in mines:
+            # Display each mine
             self.draw_object(MINE_IMG_PATH,mine_location,size)
 
 
