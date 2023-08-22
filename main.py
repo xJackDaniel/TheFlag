@@ -22,20 +22,20 @@ def main():
     while running:
         clock.tick(FPS)
 
-
         for event in pygame.event.get():
             # Handling all the events
             if event.type == pygame.QUIT:
                 running = False
-            key_input = pygame.key.get_pressed()
-            if key_input[pygame.K_LEFT]:
-                soldier.move_x(right=False)
-            elif key_input[pygame.K_RIGHT]:
-                soldier.move_x(right=True)
-            elif key_input[pygame.K_DOWN]:
-                soldier.move_y(up=False)
-            elif key_input[pygame.K_UP]:
-                soldier.move_y(up=True)
+            else:
+                key_input = pygame.key.get_pressed()
+                if key_input[pygame.K_LEFT]:
+                    soldier.move_x(right=False)
+                elif key_input[pygame.K_RIGHT]:
+                    soldier.move_x(right=True)
+                elif key_input[pygame.K_DOWN]:
+                    soldier.move_y(up=False)
+                elif key_input[pygame.K_UP]:
+                    soldier.move_y(up=True)
 
         # Display the regular screen
         screens.display_regular_screen(soldier)
