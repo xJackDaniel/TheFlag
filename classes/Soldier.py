@@ -18,3 +18,22 @@ class Soldier:
         location = (self.x, self.y)
         size = (self.width, self.height)
         ScreenObj.draw_object(self.img_path, location, size)
+
+    def move_x(self, right: bool):
+        """updating soldier position - only right and left """
+        if right:
+            if not (self.x+STEP_SIZE > WINDOW_WIDTH-SOLDIER_WIDTH):
+                self.x += STEP_SIZE
+        else:
+            if not self.x == MIN_X:
+                self.x -= STEP_SIZE
+
+
+    def move_y(self, up: bool):
+        """updating soldier position - only up and down """
+        if up:
+            if not self.y == MIN_Y:
+                self.y -= STEP_SIZE
+        else:
+            if not (self.y + STEP_SIZE > WINDOW_HEIGHT - SOLDIER_HEIGHT):
+                self.y += STEP_SIZE
