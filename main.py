@@ -52,6 +52,15 @@ def main():
         # Display the regular screen
         screens.display_regular_screen(soldier)
 
+        # Check lose
+        if game_field.check_lose(soldier):
+            # Update image to exploding
+            soldier.change_soldier_image(SOLDIER_EXPLODED_IMG_PATH)
+            pygame.display.update()
+            # Delay to end game
+            pygame.time.wait(END_GAME_DELAY)
+            running = False
+
         pygame.display.update()
 
     pygame.quit()
