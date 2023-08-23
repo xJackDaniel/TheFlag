@@ -2,9 +2,11 @@ import pygame
 from consts import *
 import random
 
+
 def set_window_caption():
     """Sets a caption to game window"""
     pygame.display.set_caption(WINDOW_CAPTION)
+
 
 # TODO: Add notes to class
 class Screen:
@@ -43,8 +45,8 @@ class Screen:
     def insert_rnd_bushes(self):
         """Creates the random bushes dict"""
         for bush in range(BUSH_COUNT):
-            rnd_x = random.randint(MIN_X, MAX_X-BUSH_SIZE[BUSH_WIDTH_INDEX])
-            rnd_y = random.randint(MIN_Y, MAX_Y-BUSH_SIZE[BUSH_HEIGHT_INDEX])
+            rnd_x = random.randint(MIN_X, MAX_X - BUSH_SIZE[BUSH_WIDTH_INDEX])
+            rnd_y = random.randint(MIN_Y, MAX_Y - BUSH_SIZE[BUSH_HEIGHT_INDEX])
             # Bush size and location
             location = (rnd_x, rnd_y)
             size = BUSH_SIZE
@@ -79,6 +81,15 @@ class Screen:
         for mine_location in mines:
             # Display each mine
             self.draw_object(MINE_IMG_PATH, mine_location, size)
+
+    def draw_teleports(self, game_field):
+        """Draws the teleports on the screen"""
+        # Get the mines location list
+        teleports = game_field.get_teleports()
+        size = (TELEPORT_WIDTH, TELEPORT_HEIGHT)
+        for teleport_location in teleports:
+            # Display each mine
+            self.draw_object(TELEPORT_IMG_PATH, teleport_location, size)
 
     def update_bushes(self, new_bushes_lst):
         """Updates the bushes list - Used to load saves"""

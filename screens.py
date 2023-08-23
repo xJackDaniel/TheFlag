@@ -33,3 +33,5 @@ def display_mine_screen(screenObj, soldier, game_field):
     soldier.draw_soldier(screenObj)
     # Draw the mines
     screenObj.draw_mines(game_field)
+    # Draw the teleports
+    screenObj.draw_teleports(game_field)

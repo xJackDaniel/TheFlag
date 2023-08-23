@@ -8,9 +8,11 @@ class GameField:
     def __init__(self):
         self.board = []
         self.mines = []
+        self.teleports = []
         self.build_empty_board()
         self.insert_flag_position()
         self.insert_mines()
+        self.insert_teleports()
 
     def build_empty_board(self):
         """Building an empty matrix"""
@@ -23,6 +25,10 @@ class GameField:
     def get_mines(self):
         """Returns the mines"""
         return self.mines
+
+    def get_teleports(self):
+        """Returns the teleports"""
+        return self.teleports
 
     def insert_mines(self):
         """Inserting mines to the grid"""
@@ -82,6 +88,17 @@ class GameField:
         # Update mine position in matrix
         self.insert_object(mine_start_col_square, mine_end_col_square, mine_start_row_square, mine_end_row_square, MINE)
 
+    def insert_teleport_position(self, x, y):
+        """Insert the teleport position to matrix"""
+        # Get the flag position
+        teleport_start_col_square = x // SQUARE_SIZE
+        teleport_start_row_square = y // SQUARE_SIZE
+        teleport_end_row_square = teleport_start_row_square + TELEPORT_HEIGHT_SQUARES
+        teleport_end_col_square = teleport_start_col_square + TELEPORT_WIDTH_SQUARES
+
+        # Update mine position in matrix
+        self.insert_object(teleport_start_col_square, teleport_end_col_square, teleport_start_row_square, teleport_end_row_square, TELEPORT)
+
     def insert_flag_position(self):
         """Insert the flag position to matrix"""
         # Get the flag position
@@ -137,3 +154,39 @@ class GameField:
         screen.update_bushes(new_bushes_lst)
         soldier.update_position(new_soldier_location)
 
+
+    def insert_teleports(self):
+        """Inserting teleports to the grid"""
+
+        def check_teleport(x, y):
+            """Check if there is a space between the teleport to other mines and objects"""
+            # Get the flag position
+            teleport_start_col_square = x // SQUARE_SIZE - TELEPORT_SPACE_SQUARES
+            teleport_start_row_square = y // SQUARE_SIZE - TELEPORT_SPACE_SQUARES
+            teleport_end_row_square = teleport_start_row_square + TELEPORT_HEIGHT_SQUARES + TELEPORT_SPACE_SQUARES + 1
+            teleport_end_col_square = teleport_start_col_square + TELEPORT_WIDTH_SQUARES + TELEPORT_SPACE_SQUARES + 1
+
+            # First check - no mine in the wanted position
+            # Second check - no mine in radius of 2 squares from the wanted position
+            for row_index in range(teleport_start_row_square, teleport_end_row_square):
+                for col_index in range(teleport_start_col_square, teleport_end_col_square):
+                    current_square = self.board[row_index][col_index]
+                    not_valid_squares = [MINE, FLAG, SOLDIER, TELEPORT]
+                    if current_square in not_valid_squares:
+                        return False
+            return True
+
+        for teleport in range(TELEPORT_COUNT):
+            valid_teleport = False
+            while not valid_teleport:
+                teleport_col_x = random.randrange(MIN_TELEPORT_X, MAX_TELEPORT_X, SQUARE_SIZE)
+                teleport_row_y = random.randrange(MIN_TELEPORT_Y, MAX_TELEPORT_Y, SQUARE_SIZE)
+                while not check_teleport(teleport_col_x, teleport_row_y):
+                    # The teleport is not valid
+                    teleport_col_x = random.randrange(MIN_X, MAX_X - TELEPORT_WIDTH, SQUARE_SIZE)
+                    teleport_row_y = random.randrange(MIN_TELEPORT_Y, MAX_Y - TELEPORT_HEIGHT, SQUARE_SIZE)
+                else:
+                    valid_teleport = True
+                    # Add mine to screen and to list
+                    self.teleports.append((teleport_col_x, teleport_row_y))
+                    self.insert_teleport_position(teleport_col_x, teleport_row_y)
