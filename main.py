@@ -41,7 +41,7 @@ def main():
                     elif key_input[pygame.K_RETURN]:
                         mine_screen = True
                         # Display the mine screen for x seconds
-                        screens.display_mine_screen(soldier, game_field)
+                        screens.display_mine_screen(screenObj, soldier, game_field)
                         # Update the display
                         pygame.display.update()
                         # Delay the mine screen
@@ -90,14 +90,14 @@ def main():
                     save_key_pressed = False
 
         # Display the regular screen
-        screens.display_regular_screen(soldier, SOLDIER_IMG_PATH)
+        screens.display_regular_screen(screenObj, soldier, SOLDIER_IMG_PATH)
 
         # Check lose
         status = soldier.get_status()
         if status == LOSE_STATUS or status == WIN_STATUS:
             if status == LOSE_STATUS:
                 # Update image to exploding
-                screens.display_regular_screen(soldier, SOLDIER_EXPLODED_IMG_PATH)
+                screens.display_regular_screen(screenObj, soldier, SOLDIER_EXPLODED_IMG_PATH)
                 # Draw defeat message
                 screenObj.draw_text(LOSE_MESSAGE, BLACK, LOSE_SIZE, LOSE_FONT, (LOSE_X, LOSE_Y))
             else:

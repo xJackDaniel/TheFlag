@@ -1,8 +1,7 @@
-from main import screenObj
 from consts import *
 
 
-def display_regular_screen(soldier, img):
+def display_regular_screen(screenObj, soldier, img):
     """Creates the regular display screen"""
     # Set background color
     screenObj.set_background_color(GREEN)
@@ -19,7 +18,7 @@ def display_regular_screen(soldier, img):
     soldier.draw_soldier(screenObj)
 
 
-def display_mine_screen(soldier, game_field):
+def display_mine_screen(screenObj, soldier, game_field):
     """crate mine showing screen on
      top of the original screen"""
     # change the screen color to white
