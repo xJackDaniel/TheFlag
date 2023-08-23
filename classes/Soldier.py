@@ -1,5 +1,6 @@
 from consts import *
 
+
 # TODO: Add notes to class
 class Soldier:
     def __init__(self, game_field):
@@ -11,7 +12,6 @@ class Soldier:
         self.status = RUNNING_STATUS
         # Insert the soldier to board
         game_field.update_soldier_location(self)
-
 
     def get_x(self):
         """Returns the x of the soldier"""
@@ -61,7 +61,7 @@ class Soldier:
         moved = False
         if right:
             # Make sure that the soldier is not crossing the screen size
-            if not (self.x+STEP_SIZE > WINDOW_WIDTH-SOLDIER_WIDTH):
+            if not (self.x + STEP_SIZE > WINDOW_WIDTH - SOLDIER_WIDTH):
                 self.x += STEP_SIZE
                 moved = True
         else:
@@ -100,7 +100,7 @@ class Soldier:
         for col in range(SOLDIER_WIDTH_SQUARES):
             y_square = self.y // SQUARE_SIZE
             x_square = self.x // SQUARE_SIZE
-            indexes.append([x_square+col, y_square + SOLDIER_HEIGHT_SQUARES - 1])
+            indexes.append([x_square + col, y_square + SOLDIER_HEIGHT_SQUARES - 1])
         return indexes
 
     def get_body_index(self):
@@ -110,7 +110,7 @@ class Soldier:
             for col in range(SOLDIER_WIDTH_SQUARES):
                 y_square = self.y // SQUARE_SIZE
                 x_square = self.x // SQUARE_SIZE
-                indexes.append([x_square+col, y_square+row])
+                indexes.append([x_square + col, y_square + row])
         # Remove the legs indexes
         leg_indexes = self.get_legs_index()
         for leg_index in leg_indexes:
@@ -121,3 +121,7 @@ class Soldier:
         """Returns the soldier status"""
         return self.status
 
+    def update_position(self, location):
+        """Updates the soldier location - Used to load saves"""
+        self.x = location[X_INDEX]
+        self.y = location[Y_INDEX]

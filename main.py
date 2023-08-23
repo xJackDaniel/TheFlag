@@ -59,11 +59,12 @@ def main():
                     elif key_input[pygame.K_UP]:
                         soldier.move_y(up=True, game_field=game_field)
                 elif event.type == pygame.KEYUP and save_key_pressed:
-                    t = time.time() - t; t = str(t); t = t[:5]; t = float(t);
+                    t = time.time() - t; t = str(t); t = t[:5]; t = float(t)
                     key = SAVE_KEYS.get(event.key)
                     if t <= CHECK_DELAY:
                         # Save the game
-                        db.write_to_csv(key, game_field.get_board(), screenObj.get_bushes())
+                        db.write_to_csv(key, game_field.get_board(), screenObj.get_bushes(),
+                                        game_field.get_mines(), soldier)
                         # Show a message
                         screenObj.draw_text(SAVED_MESSAGE.format(number=key), BLACK, SAVED_SIZE,
                                             SAVED_FONT,
@@ -73,16 +74,18 @@ def main():
                         data, response = db.read_csv(key)
                         # Check if there is a saved game with this key - show a message
                         if response == KEY_ERROR:
-                            screenObj.draw_text(NOT_FOUND_MESSAGE.format(number=key), BLACK, NOT_FOUND_SIZE, NOT_FOUND_FONT,
+                            screenObj.draw_text(NOT_FOUND_MESSAGE.format(number=key), BLACK, NOT_FOUND_SIZE,
+                                                NOT_FOUND_FONT,
                                                 (NOT_FOUND_X, NOT_FOUND_Y))
                         else:
+                            # Load save
+                            game_field.load_save(data, screenObj, soldier)
                             screenObj.draw_text(LOADING_SAVE_MESSAGE.format(number=key), BLACK, LOADING_SAVE_SIZE,
                                                 LOADING_SAVE_FONT,
                                                 (LOADING_SAVE_X, LOADING_SAVE_Y))
                     pygame.display.update()
                     # Delay the message
                     pygame.time.wait(MESSAGE_DELAY)
-
 
                     save_key_pressed = False
 

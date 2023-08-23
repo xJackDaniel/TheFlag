@@ -2,11 +2,15 @@ import pygame
 from consts import *
 import random
 
+def set_window_caption():
+    """Sets a caption to game window"""
+    pygame.display.set_caption(WINDOW_CAPTION)
+
 # TODO: Add notes to class
 class Screen:
     def __init__(self):
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
-        self.set_window_caption()
+        set_window_caption()
         self.set_background_color(GREEN)
         self.bushes = []
         self.insert_rnd_bushes()
@@ -19,10 +23,6 @@ class Screen:
     def get_bushes(self):
         """Returns the bushes list"""
         return self.bushes
-
-    def set_window_caption(self):
-        """Sets a caption to game window"""
-        pygame.display.set_caption(WINDOW_CAPTION)
 
     def set_background_color(self, color):
         """Sets a background color"""
@@ -80,3 +80,6 @@ class Screen:
             # Display each mine
             self.draw_object(MINE_IMG_PATH, mine_location, size)
 
+    def update_bushes(self, new_bushes_lst):
+        """Updates the bushes list - Used to load saves"""
+        self.bushes = new_bushes_lst

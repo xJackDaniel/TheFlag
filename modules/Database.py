@@ -2,11 +2,16 @@ import pandas as pd
 from consts import *
 
 
-def write_to_csv(save_number, board, bushes):
+def write_to_csv(save_number, board, bushes, mines, soldier):
     """Writes the board and bushes to csv file"""
     # Add bushes to end of sheet
     board_copy = board.copy()
+    # Soldier
+    board_copy.append([soldier.get_x(), soldier.get_y()])
+    # Bushes
     board_copy.append(bushes)
+    # Mines
+    board_copy.append(mines)
     # Write the board to Excel file with specific sheet name
     df = pd.DataFrame(board_copy)
 

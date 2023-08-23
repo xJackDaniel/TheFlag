@@ -133,3 +133,10 @@ SAVE_KEYS = {pygame.K_1: "1", pygame.K_2: "2", pygame.K_3: "3", pygame.K_4: "4",
              pygame.K_7: "7", pygame.K_8: "8", pygame.K_9: "9"}
 
 CHECK_DELAY = 1
+
+DATA_MINES_ROW = 0
+DATA_BUSHES_ROW = 1
+DATA_SOLDIER_ROW = 2
+COUNT_OF_SAVED_ADDITIONAL_OBJECTS = 3
+
+DATA_EMPTY_COL = "nan"

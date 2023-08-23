@@ -1,4 +1,5 @@
 import random
+import ast
 from consts import *
 
 
@@ -25,6 +26,7 @@ class GameField:
 
     def insert_mines(self):
         """Inserting mines to the grid"""
+
         def check_x_safe_zone(x):
             """Returns True/False if x is in the safe zone"""
             return SAFE_ZONE_X_START <= x < SAFE_ZONE_X_END
@@ -102,3 +104,30 @@ class GameField:
 
         # print('\n'.join(map(','.join, self.board)))
         # print()
+
+    def load_save(self, data, screen, soldier):
+        """Loads a save to current game"""
+
+        def remove_nan(lst):
+            """Removes all nan values from list"""
+            return list(filter(lambda a: str(a) != DATA_EMPTY_COL, lst))
+
+        df_len = len(data)
+        # Get the board
+        new_board = remove_nan(data.iloc[:df_len - COUNT_OF_SAVED_ADDITIONAL_OBJECTS].values.tolist())
+        # Get soldier location
+        new_soldier_location = remove_nan(data.iloc[df_len - DATA_SOLDIER_ROW - 1].values.tolist())
+        # Get bushes and convert them back to dict
+        new_bushes_lst = remove_nan(data.iloc[df_len - DATA_BUSHES_ROW - 1].values.tolist())
+        for bush_index, new_bush in enumerate(new_bushes_lst):
+            new_bushes_lst[bush_index] = ast.literal_eval(new_bush)
+        # Get Mines and convert them back to tuple
+        new_mines_lst = remove_nan(data.iloc[df_len - DATA_MINES_ROW - 1].values.tolist())
+        for mine_index, new_mine in enumerate(new_mines_lst):
+            new_mines_lst[mine_index] = ast.literal_eval(new_mine)
+        # Update the data
+        self.board = new_board
+        self.mines = new_mines_lst
+        screen.update_bushes(new_bushes_lst)
+        soldier.update_position(new_soldier_location)
+
