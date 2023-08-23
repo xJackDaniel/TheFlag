@@ -15,7 +15,7 @@ def write_to_csv(save_number, board, bushes, mines, soldier):
     # Write the board to Excel file with specific sheet name
     df = pd.DataFrame(board_copy)
 
-    with pd.ExcelWriter(DATABASE_FILE, engine='openpyxl', mode='a') as writer:
+    with pd.ExcelWriter(DATABASE_FILE, engine='openpyxl', mode=APPEND_MODE) as writer:
         workBook = writer.book
         try:
             workBook.remove(workBook[str(save_number)])
@@ -23,7 +23,7 @@ def write_to_csv(save_number, board, bushes, mines, soldier):
             pass
             # Worksheet does not exist
         finally:
-            df.to_excel(writer, sheet_name=str(save_number), index=False, header=False)
+            df.to_excel(writer, sheet_name=str(save_number), index=False)
             writer.save()
 
 

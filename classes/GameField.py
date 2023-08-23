@@ -120,7 +120,7 @@ class GameField:
 
         df_len = len(data)
         # Get the board
-        new_board = remove_nan(data.iloc[:df_len - COUNT_OF_SAVED_ADDITIONAL_OBJECTS].values.tolist())
+        new_board = data.values[:ROWS_COUNT].tolist()
         # Get soldier location
         new_soldier_location = remove_nan(data.iloc[df_len - DATA_SOLDIER_ROW - 1].values.tolist())
         # Get bushes and convert them back to dict
