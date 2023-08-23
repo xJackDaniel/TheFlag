@@ -43,8 +43,8 @@ class Screen:
     def insert_rnd_bushes(self):
         """Creates the random bushes dict"""
         for bush in range(BUSH_COUNT):
-            rnd_x = random.randint(MIN_X, MAX_X)
-            rnd_y = random.randint(MIN_Y, MAX_Y)
+            rnd_x = random.randint(MIN_X, MAX_X-BUSH_SIZE[BUSH_WIDTH_INDEX])
+            rnd_y = random.randint(MIN_Y, MAX_Y-BUSH_SIZE[BUSH_HEIGHT_INDEX])
             # Bush size and location
             location = (rnd_x, rnd_y)
             size = BUSH_SIZE
