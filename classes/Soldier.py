@@ -40,6 +40,19 @@ class Soldier:
             leg_row = leg_index[Y_INDEX]
             board = game_field.get_board()
             if board[leg_row][leg_col] == MINE:
+                self.status = LOSE_STATUS
+                return True
+        return False
+
+    def check_win(self, game_field):
+        """Check if the soldier body touch the Flag"""
+        body_indexes = self.get_body_index()
+        for body_index in body_indexes:
+            x_body = body_index[X_INDEX]
+            y_body = body_index[Y_INDEX]
+            board = game_field.get_board()
+            if board[y_body][x_body] == FLAG:
+                self.status = WIN_STATUS
                 return True
         return False
 
@@ -56,9 +69,10 @@ class Soldier:
                 self.x -= STEP_SIZE
                 moved = True
         if moved:
-            # Check lose
-            if self.check_lose(game_field):
-                self.status = LOSE_STATUS
+            # Check lose/win
+            lose = self.check_lose(game_field)
+            if not lose:
+                self.check_win(game_field)
             game_field.update_soldier_location(self)
 
     def move_y(self, up: bool, game_field):
@@ -74,9 +88,10 @@ class Soldier:
                 self.y += STEP_SIZE
                 moved = True
         if moved:
-            # Check lose
-            if self.check_lose(game_field):
-                self.status = LOSE_STATUS
+            # Check lose/win
+            lose = self.check_lose(game_field)
+            if not lose:
+                self.check_win(game_field)
             game_field.update_soldier_location(self)
 
     def get_legs_index(self):
