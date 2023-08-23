@@ -64,9 +64,26 @@ def main():
                     if t <= CHECK_DELAY:
                         # Save the game
                         db.write_to_csv(key, game_field.get_board(), screenObj.get_bushes())
+                        # Show a message
+                        screenObj.draw_text(SAVED_MESSAGE.format(number=key), BLACK, SAVED_SIZE,
+                                            SAVED_FONT,
+                                            (SAVED_X, SAVED_Y))
                     else:
                         # Load the game
-                        data = db.read_csv(key)
+                        data, response = db.read_csv(key)
+                        # Check if there is a saved game with this key - show a message
+                        if response == KEY_ERROR:
+                            screenObj.draw_text(NOT_FOUND_MESSAGE.format(number=key), BLACK, NOT_FOUND_SIZE, NOT_FOUND_FONT,
+                                                (NOT_FOUND_X, NOT_FOUND_Y))
+                        else:
+                            screenObj.draw_text(LOADING_SAVE_MESSAGE.format(number=key), BLACK, LOADING_SAVE_SIZE,
+                                                LOADING_SAVE_FONT,
+                                                (LOADING_SAVE_X, LOADING_SAVE_Y))
+                    pygame.display.update()
+                    # Delay the message
+                    pygame.time.wait(MESSAGE_DELAY)
+
+
                     save_key_pressed = False
 
         # Display the regular screen
