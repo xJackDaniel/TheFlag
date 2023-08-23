@@ -90,20 +90,8 @@ class GameField:
         soldier_end_col_square = soldier_start_col_square + SOLDIER_WIDTH_SQUARES
 
         # Update soldier position in matrix
-        self.check_lose(soldier)
         self.insert_object(soldier_start_col_square, soldier_end_col_square, soldier_start_row_square, soldier_end_row_square, SOLDIER)
 
         # print('\n'.join(map(','.join, self.board)))
         # print()
-
-    def check_lose(self, soldier):
-        """Checks if one of the soldier legs touched a mine"""
-        legs_indexes = soldier.get_legs_index()
-        # Check if one of the legs is mine
-        for leg_index in legs_indexes:
-            leg_col = leg_index[X_INDEX]
-            leg_row = leg_index[Y_INDEX]
-            if self.board[leg_row][leg_col] == MINE:
-                return True
-        return False
 

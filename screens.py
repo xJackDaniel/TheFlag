@@ -15,11 +15,10 @@ def display_regular_screen(soldier):
     screenObj.draw_text(text=WELCOME_MESSAGE, location=location_welcome,
                         size=WELCOME_SIZE, font=WELCOME_FONT, color=WHITE)
     # Draw the soldier
-    soldier.change_soldier_image(SOLDIER_IMG_PATH)
-    soldier.draw_soldier()
+    soldier.draw_soldier(screenObj)
 
 
-def display_mine_screen(soldier):
+def display_mine_screen(soldier, game_field):
     """crate mine showing screen on
      top of the original screen"""
     # change the screen color to white
@@ -31,6 +30,6 @@ def display_mine_screen(soldier):
         screenObj.draw_line_horizontal((row + 1) * SQUARE_SIZE)
     # Draw the soldier
     soldier.change_soldier_image(SOLDIER_MINE_SCREEN_IMG_PATH)
-    soldier.draw_soldier()
+    soldier.draw_soldier(screenObj)
     # Draw the mines
-    screenObj.draw_mines()
+    screenObj.draw_mines(game_field)

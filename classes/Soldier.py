@@ -2,17 +2,15 @@ from consts import *
 
 # TODO: Add notes to class
 class Soldier:
-    def __init__(self, screen, game_field):
+    def __init__(self, game_field):
         self.img_path = SOLDIER_IMG_PATH
         self.x = START_SOLDIER_X
         self.y = START_SOLDIER_Y
         self.width = SOLDIER_WIDTH
         self.height = SOLDIER_HEIGHT
-        # Classes
-        self.screenObj = screen
-        self.game_field = game_field
+        self.status = RUNNING_STATUS
         # Insert the soldier to board
-        self.game_field.update_soldier_location(self)
+        game_field.update_soldier_location(self)
 
 
     def get_x(self):
@@ -26,14 +24,27 @@ class Soldier:
     def change_soldier_image(self, img):
         """Change the soldier image"""
         self.img_path = img
+        print(img)
 
-    def draw_soldier(self):
+    def draw_soldier(self, screenObj):
         """Draws the soldier to the screen"""
         location = (self.x, self.y)
         size = (self.width, self.height)
-        self.screenObj.draw_object(self.img_path, location, size)
+        screenObj.draw_object(self.img_path, location, size)
 
-    def move_x(self, right: bool):
+    def check_lose(self, game_field):
+        """Checks if one of the soldier legs touched a mine"""
+        legs_indexes = self.get_legs_index()
+        # Check if one of the legs is mine
+        for leg_index in legs_indexes:
+            leg_col = leg_index[X_INDEX]
+            leg_row = leg_index[Y_INDEX]
+            board = game_field.get_board()
+            if board[leg_row][leg_col] == MINE:
+                return True
+        return False
+
+    def move_x(self, right: bool, game_field):
         """updating soldier position - only right and left """
         moved = False
         if right:
@@ -46,9 +57,12 @@ class Soldier:
                 self.x -= STEP_SIZE
                 moved = True
         if moved:
-            self.game_field.update_soldier_location(self)
+            # Check lose
+            if self.check_lose(game_field):
+                self.status = LOSE_STATUS
+            game_field.update_soldier_location(self)
 
-    def move_y(self, up: bool):
+    def move_y(self, up: bool, game_field):
         """updating soldier position - only up and down """
         moved = False
         if up:
@@ -61,7 +75,10 @@ class Soldier:
                 self.y += STEP_SIZE
                 moved = True
         if moved:
-            self.game_field.update_soldier_location(self)
+            # Check lose
+            if self.check_lose(game_field):
+                self.status = LOSE_STATUS
+            game_field.update_soldier_location(self)
 
     def get_legs_index(self):
         """Returns the index of the soldier legs"""
@@ -86,4 +103,7 @@ class Soldier:
             indexes.remove(leg_index)
         return indexes
 
+    def get_status(self):
+        """Returns the soldier status"""
+        return self.status
 

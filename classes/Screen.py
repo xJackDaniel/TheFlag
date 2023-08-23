@@ -4,12 +4,11 @@ import random
 
 # TODO: Add notes to class
 class Screen:
-    def __init__(self, game_field):
+    def __init__(self):
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         self.set_window_caption()
         self.set_background_color(GREEN)
         self.bushes = []
-        self.game_field = game_field
         self.insert_rnd_bushes()
         pygame.font.init()
 
@@ -68,10 +67,10 @@ class Screen:
         """Draws a vertical line"""
         pygame.draw.line(self.screen, GREEN, (x, MIN_Y), (x, MAX_Y), LINE_WIDTH)
 
-    def draw_mines(self):
+    def draw_mines(self, game_field):
         """Draws the mines on the screen"""
         # Get the mines location list
-        mines = self.game_field.get_mines()
+        mines = game_field.get_mines()
         size = (MINE_WIDTH, MINE_HEIGHT)
         for mine_location in mines:
             # Display each mine
