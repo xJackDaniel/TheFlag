@@ -3,8 +3,9 @@ from consts import *
 from classes.Screen import Screen
 from classes.GameField import GameField
 from classes.Soldier import Soldier
+import modules.Database as db
 import screens
-
+import time
 
 # Create board matrix
 game_field = GameField()
@@ -19,6 +20,7 @@ soldier = Soldier(game_field)
 def main():
     clock = pygame.time.Clock()
     mine_screen = False
+    save_key_pressed = False
 
     running = True
     while running:
@@ -29,26 +31,43 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             elif not mine_screen:
-                key_input = pygame.key.get_pressed()
-                # If enter - mine screen
-                if key_input[pygame.K_RETURN]:
-                    mine_screen = True
-                    # Display the mine screen for x seconds
-                    screens.display_mine_screen(soldier, game_field)
-                    # Update the display
-                    pygame.display.update()
-                    # Delay the mine screen
-                    pygame.time.wait(MINE_SCREEN_DELAY)
-                    # Return to regular screen
-                    mine_screen = False
-                elif key_input[pygame.K_LEFT]:
-                    soldier.move_x(right=False, game_field=game_field)
-                elif key_input[pygame.K_RIGHT]:
-                    soldier.move_x(right=True, game_field=game_field)
-                elif key_input[pygame.K_DOWN]:
-                    soldier.move_y(up=False, game_field=game_field)
-                elif key_input[pygame.K_UP]:
-                    soldier.move_y(up=True, game_field=game_field)
+                if event.type == pygame.KEYDOWN:
+                    key_input = pygame.key.get_pressed()
+                    # Check if one of the save keys pressed
+                    if event.key in SAVE_KEYS.keys():
+                        t = time.time()
+                        save_key_pressed = True
+                    # If enter - mine screen
+                    elif key_input[pygame.K_RETURN]:
+                        mine_screen = True
+                        # Display the mine screen for x seconds
+                        screens.display_mine_screen(soldier, game_field)
+                        # Update the display
+                        pygame.display.update()
+                        # Delay the mine screen
+                        pygame.time.wait(MINE_SCREEN_DELAY)
+                        # Return to regular screen
+                        mine_screen = False
+                    elif key_input[pygame.K_LEFT]:
+                        soldier.move_x(right=False, game_field=game_field)
+
+                    elif key_input[pygame.K_RIGHT]:
+                        soldier.move_x(right=True, game_field=game_field)
+
+                    elif key_input[pygame.K_DOWN]:
+                        soldier.move_y(up=False, game_field=game_field)
+                    elif key_input[pygame.K_UP]:
+                        soldier.move_y(up=True, game_field=game_field)
+                elif event.type == pygame.KEYUP and save_key_pressed:
+                    t = time.time() - t; t = str(t); t = t[:5]; t = float(t);
+                    key = SAVE_KEYS.get(event.key)
+                    if t <= CHECK_DELAY:
+                        # Save the game
+                        db.write_to_csv(key, game_field.get_board(), screenObj.get_bushes())
+                    else:
+                        # Load the game
+                        data = db.read_csv(key)
+                    save_key_pressed = False
 
         # Display the regular screen
         screens.display_regular_screen(soldier, SOLDIER_IMG_PATH)

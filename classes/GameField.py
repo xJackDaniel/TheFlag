@@ -45,12 +45,12 @@ class GameField:
             valid_mine = False
             while not valid_mine:
                 mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
-                mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
+                mine_row_y = random.randrange(MIN_MINE_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
                 while (check_x_safe_zone(mine_col_x) and check_y_safe_zone(mine_row_y)) or (
                         check_x_flag_zone(mine_col_x) and check_y_flag_zone(mine_row_y)):
                     # The mine is not valid
                     mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
-                    mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
+                    mine_row_y = random.randrange(MIN_MINE_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
                 else:
                     valid_mine = True
                     # Add mine to screen and to list

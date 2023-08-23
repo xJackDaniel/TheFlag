@@ -16,6 +16,10 @@ class Screen:
         """Returns the pygame screen"""
         return self.screen
 
+    def get_bushes(self):
+        """Returns the bushes list"""
+        return self.bushes
+
     def set_window_caption(self):
         """Sets a caption to game window"""
         pygame.display.set_caption(WINDOW_CAPTION)
