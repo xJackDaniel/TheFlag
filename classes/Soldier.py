@@ -24,7 +24,6 @@ class Soldier:
     def change_soldier_image(self, img):
         """Change the soldier image"""
         self.img_path = img
-        print(img)
 
     def draw_soldier(self, screenObj):
         """Draws the soldier to the screen"""
