@@ -63,7 +63,13 @@ class GameField:
         """Inserts an object to the matrix"""
         for row in range(start_y, end_y):
             for col in range(start_x, end_x):
-                self.board[row][col] = value
+                # check that the soldier will not overwrite the mines or the flag
+                if value == SOLDIER:
+                    current_square = self.board[row][col]
+                    if current_square == EMPTY:
+                        self.board[row][col] = SOLDIER
+                else:
+                    self.board[row][col] = value
 
     def insert_mine_position(self, x, y):
         """Insert the mine position to matrix"""
