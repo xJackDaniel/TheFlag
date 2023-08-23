@@ -2,7 +2,7 @@ from main import screenObj
 from consts import *
 
 
-def display_regular_screen(soldier):
+def display_regular_screen(soldier, img):
     """Creates the regular display screen"""
     # Set background color
     screenObj.set_background_color(GREEN)
@@ -15,6 +15,7 @@ def display_regular_screen(soldier):
     screenObj.draw_text(text=WELCOME_MESSAGE, location=location_welcome,
                         size=WELCOME_SIZE, font=WELCOME_FONT, color=WHITE)
     # Draw the soldier
+    soldier.change_soldier_image(img)
     soldier.draw_soldier(screenObj)
 
 

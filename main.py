@@ -51,14 +51,20 @@ def main():
                     soldier.move_y(up=True, game_field=game_field)
 
         # Display the regular screen
-        soldier.change_soldier_image(SOLDIER_IMG_PATH)
-        screens.display_regular_screen(soldier)
+        screens.display_regular_screen(soldier, SOLDIER_IMG_PATH)
 
         # Check lose
-        if soldier.get_status() == LOSE_STATUS:
-            # Update image to exploding
-            soldier.change_soldier_image(SOLDIER_EXPLODED_IMG_PATH)
-            screens.display_regular_screen(soldier)
+        status = soldier.get_status()
+        if status == LOSE_STATUS or status == WIN_STATUS:
+            if status == LOSE_STATUS:
+                # Update image to exploding
+                screens.display_regular_screen(soldier, SOLDIER_EXPLODED_IMG_PATH)
+                # Draw defeat message
+                screenObj.draw_text(LOSE_MESSAGE, BLACK, LOSE_SIZE, LOSE_FONT, (LOSE_X, LOSE_Y))
+            else:
+                # Draw win message
+                screenObj.draw_text(WIN_MESSAGE, BLACK, WIN_SIZE, WIN_FONT, (WIN_X, WIN_Y))
+
             pygame.display.update()
             # Delay to end game
             pygame.time.wait(END_GAME_DELAY)

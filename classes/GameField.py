@@ -33,17 +33,24 @@ class GameField:
             """Returns True/False if y is in the safe zone"""
             return SAFE_ZONE_Y_START <= y < SAFE_ZONE_Y_END
 
+        def check_x_flag_zone(x):
+            """Returns True/False if x is in the flag safe zone"""
+            return SAFE_ZONE_X_FLAG_START <= x < SAFE_ZONE_X_FLAG_END
+
+        def check_y_flag_zone(y):
+            """Returns True/False if y is in the flag safe zone"""
+            return SAFE_ZONE_Y_FLAG_START <= y < SAFE_ZONE_Y_FLAG_END
+
         for mine in range(MINE_COUNT):
             valid_mine = False
             while not valid_mine:
-                mine_col_x = random.randrange(MIN_X, MAX_X-MINE_WIDTH, SQUARE_SIZE)
+                mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
                 mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
-                while check_x_safe_zone(mine_col_x) or check_y_safe_zone(mine_row_y):
-                    # The mine is not valid - Check if x or y is not valid
-                    if check_x_safe_zone(mine_col_x):
-                        mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
-                    else:
-                        mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
+                while (check_x_safe_zone(mine_col_x) and check_y_safe_zone(mine_row_y)) or (
+                        check_x_flag_zone(mine_col_x) and check_y_flag_zone(mine_row_y)):
+                    # The mine is not valid
+                    mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
+                    mine_row_y = random.randrange(MIN_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
                 else:
                     valid_mine = True
                     # Add mine to screen and to list
@@ -90,8 +97,8 @@ class GameField:
         soldier_end_col_square = soldier_start_col_square + SOLDIER_WIDTH_SQUARES
 
         # Update soldier position in matrix
-        self.insert_object(soldier_start_col_square, soldier_end_col_square, soldier_start_row_square, soldier_end_row_square, SOLDIER)
+        self.insert_object(soldier_start_col_square, soldier_end_col_square, soldier_start_row_square,
+                           soldier_end_row_square, SOLDIER)
 
         # print('\n'.join(map(','.join, self.board)))
         # print()
-
