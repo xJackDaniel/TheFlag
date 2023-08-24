@@ -171,8 +171,7 @@ class GameField:
             for row_index in range(teleport_start_row_square, teleport_end_row_square):
                 for col_index in range(teleport_start_col_square, teleport_end_col_square):
                     current_square = self.board[row_index][col_index]
-                    not_valid_squares = [MINE, FLAG, SOLDIER, TELEPORT]
-                    if current_square in not_valid_squares:
+                    if current_square != EMPTY:
                         return False
             return True
 
@@ -190,3 +189,16 @@ class GameField:
                     # Add mine to screen and to list
                     self.teleports.append((teleport_col_x, teleport_row_y))
                     self.insert_teleport_position(teleport_col_x, teleport_row_y)
+
+    def get_teleport_location(self, col_x, row_y):
+        """Returns the teleport location as a tuple like (x,y)"""
+        # Try to move left to find the start of the teleport
+        found = False
+        check_col = col_x
+        while not found:
+            check_col -= 1
+            left_position = self.board[row_y][check_col]
+            if left_position == EMPTY:
+                return (check_col, row_y)
+            col_x -= 1
+
