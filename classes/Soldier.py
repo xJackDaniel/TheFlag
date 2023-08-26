@@ -83,7 +83,7 @@ class Soldier:
         rnd_teleport = random.choice(all_teleports)
         # move the soldier
         self.x = rnd_teleport[X_INDEX]
-        self.y = rnd_teleport[Y_INDEX] - SQUARE_SIZE*(SOLDIER_HEIGHT_SQUARES + 1)
+        self.y = rnd_teleport[Y_INDEX] - SQUARE_SIZE * SOLDIER_HEIGHT_SQUARES
 
 
 
