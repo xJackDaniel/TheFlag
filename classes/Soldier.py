@@ -1,3 +1,5 @@
+import random
+
 from consts import *
 
 
@@ -60,7 +62,7 @@ class Soldier:
         """Checks if one of the soldier legs touched a teleport"""
         if self.status != WIN_STATUS or self.status != LOSE_STATUS:
             legs_indexes = self.get_legs_index()
-            # Check if one of the legs is teleport
+            # Check if one of the legs is TELEPORT
             for leg_index in legs_indexes:
                 leg_col = leg_index[X_INDEX]
                 leg_row = leg_index[Y_INDEX]
@@ -68,11 +70,21 @@ class Soldier:
                 if board[leg_row][leg_col] == TELEPORT:
                     # Get the teleport x,y
                     current_teleport = game_field.get_teleport_location(leg_col, leg_row)
-                    self.teleport(current_teleport)
+                    self.teleport(game_field, current_teleport)
 
-    def teleport(self, current_teleport):
+    def teleport(self, game_field, current_teleport):
         """Teleports to another teleport"""
-        print(current_teleport[0]*SQUARE_SIZE, current_teleport[1]*SQUARE_SIZE)
+        teleport_location = (current_teleport[X_INDEX]*SQUARE_SIZE, current_teleport[Y_INDEX]*SQUARE_SIZE)
+        # Choose another teleport
+        all_teleports = game_field.get_teleports().copy()
+        # Remove the current teleport - to choose another teleport randomly
+        all_teleports.remove(teleport_location)
+        # Choose random teleport
+        rnd_teleport = random.choice(all_teleports)
+        # move the soldier
+        self.x = rnd_teleport[X_INDEX]
+        self.y = rnd_teleport[Y_INDEX] - SQUARE_SIZE*(SOLDIER_HEIGHT_SQUARES + 1)
+
 
 
     def move_x(self, right: bool, game_field):
@@ -90,11 +102,11 @@ class Soldier:
         if moved:
             # Check teleport
             self.check_teleport(game_field)
+            game_field.update_soldier_location(self)
             # Check lose/win
             lose = self.check_lose(game_field)
             if not lose:
                 self.check_win(game_field)
-            game_field.update_soldier_location(self)
 
     def move_y(self, up: bool, game_field):
         """updating soldier position - only up and down """
@@ -111,11 +123,12 @@ class Soldier:
         if moved:
             # Check teleport
             self.check_teleport(game_field)
+            game_field.update_soldier_location(self)
             # Check lose/win
             lose = self.check_lose(game_field)
             if not lose:
                 self.check_win(game_field)
-            game_field.update_soldier_location(self)
+
 
     def get_legs_index(self):
         """Returns the index of the soldier legs"""

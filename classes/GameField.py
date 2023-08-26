@@ -194,11 +194,10 @@ class GameField:
         """Returns the teleport location as a tuple like (x,y)"""
         # Try to move left to find the start of the teleport
         found = False
-        check_col = col_x
         while not found:
-            check_col -= 1
+            check_col = col_x - 1
             left_position = self.board[row_y][check_col]
             if left_position == EMPTY:
-                return (check_col, row_y)
+                return col_x, row_y
             col_x -= 1
 
