@@ -34,5 +34,5 @@ def read_csv(save_number):
         return data, SUCCESS
     except Exception as e:
         # Check if there is no
-        if isinstance(e, KeyError):
+        if isinstance(e, KeyError) or isinstance(e, ValueError):
             return None, KEY_ERROR
