@@ -153,6 +153,11 @@ class GameField:
             """Removes all nan values from list"""
             return list(filter(lambda a: str(a) != DATA_EMPTY_COL, lst))
 
+        def get_valid_lst(lst):
+            """Gets a str list and returns a valid python list"""
+            for index, value in enumerate(lst):
+                lst[index] = ast.literal_eval(value)
+            return lst
         df_len = len(data)
         # Get the board
         new_board = data.values[:ROWS_COUNT].tolist()
@@ -161,19 +166,13 @@ class GameField:
         new_guard_location = (new_guard[X_INDEX], new_guard[Y_INDEX])
         new_guard_direction = new_guard[DIRECTION_INDEX]
         # Get Teleports and convert them back to tuple
-        new_teleports_lst = remove_nan(data.iloc[df_len - DATA_TELEPORTS_ROW - 1].values.tolist())
-        for teleport_index, new_teleport in enumerate(new_teleports_lst):
-            new_teleports_lst[teleport_index] = ast.literal_eval(new_teleport)
+        new_teleports_lst = get_valid_lst(remove_nan(data.iloc[df_len - DATA_TELEPORTS_ROW - 1].values.tolist()))
         # Get soldier location
         new_soldier_location = remove_nan(data.iloc[df_len - DATA_SOLDIER_ROW - 1].values.tolist())
         # Get bushes and convert them back to dict
-        new_bushes_lst = remove_nan(data.iloc[df_len - DATA_BUSHES_ROW - 1].values.tolist())
-        for bush_index, new_bush in enumerate(new_bushes_lst):
-            new_bushes_lst[bush_index] = ast.literal_eval(new_bush)
+        new_bushes_lst = get_valid_lst(remove_nan(data.iloc[df_len - DATA_BUSHES_ROW - 1].values.tolist()))
         # Get Mines and convert them back to tuple
-        new_mines_lst = remove_nan(data.iloc[df_len - DATA_MINES_ROW - 1].values.tolist())
-        for mine_index, new_mine in enumerate(new_mines_lst):
-            new_mines_lst[mine_index] = ast.literal_eval(new_mine)
+        new_mines_lst = get_valid_lst(remove_nan(data.iloc[df_len - DATA_MINES_ROW - 1].values.tolist()))
         # Update the data
         self.board = new_board
         self.teleports = new_teleports_lst
