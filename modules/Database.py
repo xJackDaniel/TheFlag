@@ -23,8 +23,8 @@ def write_to_csv(save_number, board, bushes, mines, soldier):
             pass
             # Worksheet does not exist
         finally:
-            df.to_excel(writer, sheet_name=str(save_number), index=False)
-            writer.save()
+            df.to_excel(writer, sheet_name=str(save_number), index=False, header=True)
+            writer._save()
 
 
 def read_csv(save_number):
