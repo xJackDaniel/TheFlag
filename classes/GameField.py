@@ -197,7 +197,7 @@ class GameField:
         while not found:
             check_col = col_x - 1
             left_position = self.board[row_y][check_col]
-            if left_position == EMPTY:
+            if left_position != TELEPORT:
                 return col_x, row_y
             col_x -= 1
 
