@@ -33,6 +33,6 @@ def read_csv(save_number):
         data = pd.read_excel(DATABASE_FILE, sheet_name=str(save_number), engine='openpyxl')
         return data, SUCCESS
     except Exception as e:
-        # Check if there is no
+        # Check if there is no data with this save_number
         if isinstance(e, KeyError) or isinstance(e, ValueError):
             return None, KEY_ERROR
