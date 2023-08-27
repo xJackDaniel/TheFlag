@@ -10,6 +10,14 @@ class Guard(Soldier):
         self.direction = RIGHT_DIRECTION
         self.img_path = GUARD_RIGHT_IMG_PATH
 
+    def get_direction(self):
+        """Returns the direction"""
+        return self.direction
+
+    def set_direction(self, direction):
+        """Set a moving direction to the guard"""
+        self.direction = direction
+
     def move_guard(self, soldier):
         """Move the guard on the screen"""
         # Check if guard gets to end of screen

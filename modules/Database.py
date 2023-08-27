@@ -2,10 +2,14 @@ import pandas as pd
 from consts import *
 
 
-def write_to_csv(save_number, board, bushes, mines, soldier):
+def write_to_csv(save_number, board, bushes, mines, soldier, teleports, guard):
     """Writes the board and bushes to csv file"""
     # Add bushes to end of sheet
     board_copy = board.copy()
+    # Teleports
+    board_copy.append(teleports)
+    # Guard
+    board_copy.append([guard.get_x(), guard.get_y(), guard.get_direction()])
     # Soldier
     board_copy.append([soldier.get_x(), soldier.get_y()])
     # Bushes

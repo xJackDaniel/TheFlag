@@ -146,7 +146,7 @@ class GameField:
         # print('\n'.join(map(','.join, self.board)))
         # print()
 
-    def load_save(self, data, screen, soldier):
+    def load_save(self, data, screen, soldier, guard):
         """Loads a save to current game"""
 
         def remove_nan(lst):
@@ -156,6 +156,14 @@ class GameField:
         df_len = len(data)
         # Get the board
         new_board = data.values[:ROWS_COUNT].tolist()
+        # Get Guard location
+        new_guard = remove_nan(data.iloc[df_len - DATA_GUARD_ROW - 1].values.tolist())
+        new_guard_location = (new_guard[X_INDEX], new_guard[Y_INDEX])
+        new_guard_direction = new_guard[DIRECTION_INDEX]
+        # Get Teleports and convert them back to tuple
+        new_teleports_lst = remove_nan(data.iloc[df_len - DATA_TELEPORTS_ROW - 1].values.tolist())
+        for teleport_index, new_teleport in enumerate(new_teleports_lst):
+            new_teleports_lst[teleport_index] = ast.literal_eval(new_teleport)
         # Get soldier location
         new_soldier_location = remove_nan(data.iloc[df_len - DATA_SOLDIER_ROW - 1].values.tolist())
         # Get bushes and convert them back to dict
@@ -168,9 +176,17 @@ class GameField:
             new_mines_lst[mine_index] = ast.literal_eval(new_mine)
         # Update the data
         self.board = new_board
+        self.teleports = new_teleports_lst
         self.mines = new_mines_lst
         screen.update_bushes(new_bushes_lst)
         soldier.update_position(new_soldier_location)
+        guard.update_position(new_guard_location)
+        guard.set_direction(new_guard_direction)
+        # Set guard image
+        if new_guard_direction == RIGHT_DIRECTION:
+            guard.change_image(GUARD_RIGHT_IMG_PATH)
+        else:
+            guard.change_image(GUARD_LEFT_IMG_PATH)
 
 
     def insert_teleports(self):

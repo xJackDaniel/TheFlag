@@ -27,7 +27,7 @@ class Soldier:
         """Sets a status to the soldier object"""
         self.status = status
 
-    def change_soldier_image(self, img):
+    def change_image(self, img):
         """Change the soldier image"""
         self.img_path = img
 

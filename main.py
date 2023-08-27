@@ -67,7 +67,7 @@ def main():
                     if t <= CHECK_DELAY:
                         # Save the game
                         db.write_to_csv(key, game_field.get_board(), screenObj.get_bushes(),
-                                        game_field.get_mines(), soldier)
+                                        game_field.get_mines(), soldier, game_field.get_teleports(), guard)
                         # Show a message
                         screenObj.draw_text(SAVED_MESSAGE.format(number=key), BLACK, SAVED_SIZE,
                                             SAVED_FONT,
@@ -82,7 +82,7 @@ def main():
                                                 (NOT_FOUND_X, NOT_FOUND_Y))
                         else:
                             # Load save
-                            game_field.load_save(data, screenObj, soldier)
+                            game_field.load_save(data, screenObj, soldier, guard)
                             screenObj.draw_text(LOADING_SAVE_MESSAGE.format(number=key), BLACK, LOADING_SAVE_SIZE,
                                                 LOADING_SAVE_FONT,
                                                 (LOADING_SAVE_X, LOADING_SAVE_Y))
