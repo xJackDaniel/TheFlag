@@ -165,7 +165,7 @@ class Soldier:
         self.x = location[X_INDEX]
         self.y = location[Y_INDEX]
 
-    def blink(self, screens, screenObj):
+    def blink(self, screens, screenObj, guard):
         """Blink the soldier image"""
         def is_even(num):
             """Returns if a num is even"""
@@ -176,7 +176,7 @@ class Soldier:
                 transparent = True
             else:
                 transparent = False
-            screens.display_regular_screen(screenObj, self, SOLDIER_IMG_PATH, transparent)
+            screens.display_regular_screen(screenObj, self, SOLDIER_IMG_PATH, guard, transparent)
             # Update the display
             pygame.display.update()
             # Delay between the blinks

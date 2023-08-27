@@ -2,6 +2,7 @@ import pygame
 from consts import *
 from classes.Screen import Screen
 from classes.GameField import GameField
+from classes.Guard import Guard
 from classes.Soldier import Soldier
 import modules.Database as db
 import screens
@@ -15,6 +16,8 @@ screenObj = Screen()
 screen = screenObj.get_screen()
 # Create soldier
 soldier = Soldier(game_field)
+# Create guard
+guard = Guard(game_field)
 
 
 def main():
@@ -89,15 +92,19 @@ def main():
 
                     save_key_pressed = False
 
+        # Move the guard
+        guard.move_guard(soldier)
         # Display the regular screen
-        screens.display_regular_screen(screenObj, soldier, SOLDIER_IMG_PATH)
+        screens.display_regular_screen(screenObj, soldier, SOLDIER_IMG_PATH, guard)
 
         # Check lose
         status = soldier.get_status()
+        if guard.get_status() == LOSE_STATUS:
+            status = LOSE_STATUS
         if status == LOSE_STATUS or status == WIN_STATUS:
             if status == LOSE_STATUS:
                 # Update image to exploding
-                screens.display_regular_screen(screenObj, soldier, SOLDIER_EXPLODED_IMG_PATH)
+                screens.display_regular_screen(screenObj, soldier, SOLDIER_EXPLODED_IMG_PATH, guard)
                 # Draw defeat message
                 screenObj.draw_text(LOSE_MESSAGE, BLACK, LOSE_SIZE, LOSE_FONT, (LOSE_X, LOSE_Y))
             else:
@@ -110,7 +117,7 @@ def main():
             running = False
         elif status == TELEPORT_STATUS:
             # Blink the soldier
-            soldier.blink(screens, screenObj)
+            soldier.blink(screens, screenObj, guard)
 
         pygame.display.update()
 

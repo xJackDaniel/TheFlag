@@ -1,7 +1,7 @@
 from consts import *
 
 
-def display_regular_screen(screenObj, soldier, img, soldier_transparent=False):
+def display_regular_screen(screenObj, soldier, soldier_img, guard, soldier_transparent=False):
     """Creates the regular display screen"""
     # Set background color
     screenObj.set_background_color(GREEN)
@@ -14,8 +14,10 @@ def display_regular_screen(screenObj, soldier, img, soldier_transparent=False):
     screenObj.draw_text(text=WELCOME_MESSAGE, location=location_welcome,
                         size=WELCOME_SIZE, font=WELCOME_FONT, color=WHITE)
     # Draw the soldier
-    soldier.change_soldier_image(img)
+    soldier.change_soldier_image(soldier_img)
     soldier.draw_soldier(screenObj, soldier_transparent)
+    # Draw the guard
+    guard.draw_guard(screenObj)
 
 
 def display_mine_screen(screenObj, soldier, game_field):
