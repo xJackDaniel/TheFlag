@@ -30,9 +30,11 @@ class Screen:
         """Sets a background color"""
         self.screen.fill(color)
 
-    def draw_object(self, img_path, location, size):
+    def draw_object(self, img_path, location, size, transparent=False):
         """Draws an object to screen"""
         original_img = pygame.image.load(img_path)
+        if transparent:
+            original_img.set_alpha(TRANSPARENT_ALPHA_NUM)
         img = pygame.transform.scale(original_img, size)
         self.screen.blit(img, location)
 

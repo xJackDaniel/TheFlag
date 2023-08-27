@@ -23,15 +23,19 @@ class Soldier:
         """Returns the y of the soldier"""
         return self.y
 
+    def set_status(self, status):
+        """Sets a status to the soldier object"""
+        self.status = status
+
     def change_soldier_image(self, img):
         """Change the soldier image"""
         self.img_path = img
 
-    def draw_soldier(self, screenObj):
+    def draw_soldier(self, screenObj, transparent=False):
         """Draws the soldier to the screen"""
         location = (self.x, self.y)
         size = (self.width, self.height)
-        screenObj.draw_object(self.img_path, location, size)
+        screenObj.draw_object(self.img_path, location, size, transparent)
 
     def check_lose(self, game_field):
         """Checks if one of the soldier legs touched a mine"""
@@ -74,7 +78,7 @@ class Soldier:
 
     def teleport(self, game_field, current_teleport):
         """Teleports to another teleport"""
-        teleport_location = (current_teleport[X_INDEX]*SQUARE_SIZE, current_teleport[Y_INDEX]*SQUARE_SIZE)
+        teleport_location = (current_teleport[X_INDEX] * SQUARE_SIZE, current_teleport[Y_INDEX] * SQUARE_SIZE)
         # Choose another teleport
         all_teleports = game_field.get_teleports().copy()
         # Remove the current teleport - to choose another teleport randomly
@@ -84,8 +88,8 @@ class Soldier:
         # move the soldier
         self.x = rnd_teleport[X_INDEX]
         self.y = rnd_teleport[Y_INDEX] - SQUARE_SIZE * SOLDIER_HEIGHT_SQUARES
-
-
+        # Change Status
+        self.status = TELEPORT_STATUS
 
     def move_x(self, right: bool, game_field):
         """updating soldier position - only right and left """
@@ -129,7 +133,6 @@ class Soldier:
             if not lose:
                 self.check_win(game_field)
 
-
     def get_legs_index(self):
         """Returns the index of the soldier legs"""
         indexes = []
@@ -161,3 +164,21 @@ class Soldier:
         """Updates the soldier location - Used to load saves"""
         self.x = location[X_INDEX]
         self.y = location[Y_INDEX]
+
+    def blink(self, screens, screenObj):
+        """Blink the soldier image"""
+        def is_even(num):
+            """Returns if a num is even"""
+            return num % 2 == 0
+        # Blink the soldier
+        for blink in range(TELEPORT_BLINK_TIMES+1):
+            if is_even(blink):
+                transparent = True
+            else:
+                transparent = False
+            screens.display_regular_screen(screenObj, self, SOLDIER_IMG_PATH, transparent)
+            # Update the display
+            pygame.display.update()
+            # Delay between the blinks
+            pygame.time.wait(BLINK_DELAY)
+        self.set_status(RUNNING_STATUS)

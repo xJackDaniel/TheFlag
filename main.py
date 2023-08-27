@@ -108,6 +108,9 @@ def main():
             # Delay to end game
             pygame.time.wait(END_GAME_DELAY)
             running = False
+        elif status == TELEPORT_STATUS:
+            # Blink the soldier
+            soldier.blink(screens, screenObj)
 
         pygame.display.update()
 
