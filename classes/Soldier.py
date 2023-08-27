@@ -6,6 +6,7 @@ from consts import *
 # TODO: Add notes to class
 class Soldier:
     def __init__(self, game_field):
+        self.in_bush = False
         self.img_path = SOLDIER_IMG_PATH
         self.x = START_SOLDIER_X
         self.y = START_SOLDIER_Y
@@ -23,6 +24,10 @@ class Soldier:
         """Returns the y of the soldier"""
         return self.y
 
+    def is_in_bush(self):
+        """Returns if the soldier is in a bush"""
+        return self.in_bush
+
     def set_status(self, status):
         """Sets a status to the soldier object"""
         self.status = status
@@ -35,6 +40,8 @@ class Soldier:
         """Draws the soldier to the screen"""
         location = (self.x, self.y)
         size = (self.width, self.height)
+        if self.in_bush:
+            transparent = True
         screenObj.draw_object(self.img_path, location, size, transparent)
 
     def check_lose(self, game_field):
@@ -61,6 +68,20 @@ class Soldier:
                 self.status = WIN_STATUS
                 return True
         return False
+
+    def check_bush(self, screenObj):
+        """Returns if the soldier is in a bush"""
+        bushes = screenObj.get_bushes()
+        in_bush = False
+        for bush in bushes:
+            bush_x, bush_y = bush.get(BUSH_LOCATION_KEY)
+            bush_width, bush_height = bush.get(BUSH_SIZE_KEY)
+            if (bush_x <= self.x <= bush_x + bush_width) and \
+                    (self.y <= bush_y <= self.y + SOLDIER_HEIGHT or
+                     self.y <= bush_y + bush_height <= self.y + SOLDIER_HEIGHT):
+                        in_bush = True
+                        break
+        self.in_bush = in_bush
 
     def check_teleport(self, game_field):
         """Checks if one of the soldier legs touched a teleport"""
@@ -91,7 +112,7 @@ class Soldier:
         # Change Status
         self.status = TELEPORT_STATUS
 
-    def move_x(self, right: bool, game_field):
+    def move_x(self, right: bool, game_field, screenObj):
         """updating soldier position - only right and left """
         moved = False
         if right:
@@ -104,6 +125,8 @@ class Soldier:
                 self.x -= STEP_SIZE
                 moved = True
         if moved:
+            # Check bush
+            self.check_bush(screenObj)
             # Check teleport
             self.check_teleport(game_field)
             game_field.update_soldier_location(self)
@@ -112,7 +135,7 @@ class Soldier:
             if not lose:
                 self.check_win(game_field)
 
-    def move_y(self, up: bool, game_field):
+    def move_y(self, up: bool, game_field, screenObj):
         """updating soldier position - only up and down """
         moved = False
         if up:
@@ -125,6 +148,8 @@ class Soldier:
                 self.y += STEP_SIZE
                 moved = True
         if moved:
+            # Check bush
+            self.check_bush(screenObj)
             # Check teleport
             self.check_teleport(game_field)
             game_field.update_soldier_location(self)

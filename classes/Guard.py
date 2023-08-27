@@ -39,14 +39,16 @@ class Guard(Soldier):
 
     def check_lose(self, soldier):
         """Checks if one of the soldier touched the guard"""
-        soldier_start_y = soldier.get_y()
-        soldier_end_y = soldier_start_y + SOLDIER_HEIGHT
-        if (self.x <= soldier.get_x() <= self.x + GUARD_WIDTH) and \
-                (self.y <= soldier_start_y <= self.y + GUARD_HEIGHT or
-                 self.y <= soldier_end_y <= self.y + GUARD_HEIGHT):
-            self.status = LOSE_STATUS
-            return True
-        return False
+        if not soldier.is_in_bush():
+            # If the soldier is in a bush, The guard can't kill him
+            soldier_start_y = soldier.get_y()
+            soldier_end_y = soldier_start_y + SOLDIER_HEIGHT
+            if (self.x <= soldier.get_x() <= self.x + GUARD_WIDTH) and \
+                    (self.y <= soldier_start_y <= self.y + GUARD_HEIGHT or
+                     self.y <= soldier_end_y < self.y + GUARD_HEIGHT):
+                self.status = LOSE_STATUS
+                return True
+            return False
 
     def draw_guard(self, screenObj):
         """Draws the guard to the screen"""
