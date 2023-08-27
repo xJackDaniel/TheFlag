@@ -49,16 +49,34 @@ class GameField:
             """Returns True/False if y is in the flag safe zone"""
             return SAFE_ZONE_Y_FLAG_START <= y < SAFE_ZONE_Y_FLAG_END
 
+        def check_mine(x, y):
+            """Check if there is a space between the mine to other teleports and objects"""
+            # Get the mine position
+            mine_start_col_square = x // SQUARE_SIZE - MINE_SPACE_SQUARES
+            mine_start_row_square = y // SQUARE_SIZE - MINE_SPACE_SQUARES
+            mine_end_row_square = mine_start_row_square + MINE_HEIGHT_SQUARES + MINE_SPACE_SQUARES + 1
+            mine_end_col_square = mine_start_col_square + MINE_WIDTH_SQUARES + MINE_SPACE_SQUARES + 1
+
+            # First check - no mine or other object in the wanted position
+            # Second check - no mine or other object in radius of 2 squares from the wanted position
+            for row_index in range(mine_start_row_square, mine_end_row_square):
+                for col_index in range(mine_start_col_square, mine_end_col_square):
+                    current_square = self.board[row_index][col_index]
+                    if current_square != EMPTY:
+                        return False
+            return True
+
         for mine in range(MINE_COUNT):
             valid_mine = False
             while not valid_mine:
-                mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
-                mine_row_y = random.randrange(MIN_MINE_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
-                while (check_x_safe_zone(mine_col_x) and check_y_safe_zone(mine_row_y)) or (
-                        check_x_flag_zone(mine_col_x) and check_y_flag_zone(mine_row_y)):
+                mine_col_x = random.randrange(MIN_X, MAX_MINE_X, SQUARE_SIZE)
+                mine_row_y = random.randrange(MIN_MINE_Y, MAX_MINE_Y, SQUARE_SIZE)
+                while ((check_x_safe_zone(mine_col_x) and check_y_safe_zone(mine_row_y)) or (
+                        check_x_flag_zone(mine_col_x) and check_y_flag_zone(mine_row_y)) or
+                       not check_mine(mine_col_x, mine_row_y)):
                     # The mine is not valid
-                    mine_col_x = random.randrange(MIN_X, MAX_X - MINE_WIDTH, SQUARE_SIZE)
-                    mine_row_y = random.randrange(MIN_MINE_Y, MAX_Y - MINE_HEIGHT, SQUARE_SIZE)
+                    mine_col_x = random.randrange(MIN_X, MAX_MINE_X, SQUARE_SIZE)
+                    mine_row_y = random.randrange(MIN_MINE_Y, MAX_MINE_Y, SQUARE_SIZE)
                 else:
                     valid_mine = True
                     # Add mine to screen and to list

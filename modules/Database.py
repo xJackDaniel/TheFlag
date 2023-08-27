@@ -23,8 +23,8 @@ def write_to_csv(save_number, board, bushes, mines, soldier):
             pass
             # Worksheet does not exist
         finally:
-            df.to_excel(writer, sheet_name=str(save_number), index=False)
-            writer.save()
+            df.to_excel(writer, sheet_name=str(save_number), index=False, header=True)
+            writer._save()
 
 
 def read_csv(save_number):
@@ -33,6 +33,6 @@ def read_csv(save_number):
         data = pd.read_excel(DATABASE_FILE, sheet_name=str(save_number), engine='openpyxl')
         return data, SUCCESS
     except Exception as e:
-        # Check if there is no
-        if isinstance(e, KeyError):
+        # Check if there is no data with this save_number
+        if isinstance(e, KeyError) or isinstance(e, ValueError):
             return None, KEY_ERROR
