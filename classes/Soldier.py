@@ -12,7 +12,7 @@ class Soldier:
         self.y = START_SOLDIER_Y
         self.width = SOLDIER_WIDTH
         self.height = SOLDIER_HEIGHT
-        self.status = RUNNING_STATUS
+        self.status = NOT_RUNNING_STATUS
         # Insert the soldier to board
         game_field.update_soldier_location(self)
 
