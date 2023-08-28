@@ -57,7 +57,10 @@ def main():
                             # Return to regular screen
                             mine_screen = False
                     elif event.type == pygame.KEYUP and save_key_pressed:
-                        t = time.time() - t; t = str(t); t = t[:5]; t = float(t)
+                        t = time.time() - t;
+                        t = str(t);
+                        t = t[:5];
+                        t = float(t)
                         key = SAVE_KEYS.get(event.key)
                         if t <= CHECK_DELAY:
                             # Save the game
@@ -94,7 +97,6 @@ def main():
                                                obj_width=HOME_PLAY_BUTTON_WIDTH, obj_height=HOME_PLAY_BUTTON_HEIGHT):
                         # Start playing
                         soldier.set_status(RUNNING_STATUS)
-
 
         # Handle movement
         if status != NOT_RUNNING_STATUS:
@@ -145,11 +147,6 @@ def main():
         else:
             # Display home screen
             screens.display_home_screen(screenObj, soldier, SOLDIER_IMG_PATH, guard)
-
-
-
-
-
 
         pygame.display.update()
 
