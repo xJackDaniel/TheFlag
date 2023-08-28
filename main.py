@@ -51,16 +51,6 @@ def main():
                         pygame.time.wait(MINE_SCREEN_DELAY)
                         # Return to regular screen
                         mine_screen = False
-                    elif key_input[pygame.K_LEFT]:
-                        soldier.move_x(right=False, game_field=game_field, screenObj=screenObj)
-
-                    elif key_input[pygame.K_RIGHT]:
-                        soldier.move_x(right=True, game_field=game_field, screenObj=screenObj)
-
-                    elif key_input[pygame.K_DOWN]:
-                        soldier.move_y(up=False, game_field=game_field, screenObj=screenObj)
-                    elif key_input[pygame.K_UP]:
-                        soldier.move_y(up=True, game_field=game_field, screenObj=screenObj)
                 elif event.type == pygame.KEYUP and save_key_pressed:
                     t = time.time() - t; t = str(t); t = t[:5]; t = float(t)
                     key = SAVE_KEYS.get(event.key)
@@ -91,6 +81,17 @@ def main():
                     pygame.time.wait(MESSAGE_DELAY)
 
                     save_key_pressed = False
+
+        # Handle movement
+        key_input = pygame.key.get_pressed()
+        if key_input[pygame.K_LEFT]:
+            soldier.move_x(right=False, game_field=game_field, screenObj=screenObj)
+        elif key_input[pygame.K_RIGHT]:
+            soldier.move_x(right=True, game_field=game_field, screenObj=screenObj)
+        elif key_input[pygame.K_DOWN]:
+            soldier.move_y(up=False, game_field=game_field, screenObj=screenObj)
+        elif key_input[pygame.K_UP]:
+            soldier.move_y(up=True, game_field=game_field, screenObj=screenObj)
 
         # Move the guard
         guard.move_guard(soldier)

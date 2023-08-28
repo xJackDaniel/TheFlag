@@ -48,8 +48,8 @@ SOLDIER_WIN_IMG_PATH = "img/soldier_win.png"
 WIN_IMG_PATH = "img/win_img.png"
 WIN_IMG_WIDTH = 10 * SQUARE_SIZE
 WIN_IMG_HEIGHT = 10 * SQUARE_SIZE
-WIN_IMG_X = WINDOW_WIDTH//2 - WIN_IMG_WIDTH
-WIN_IMG_Y = WINDOW_HEIGHT - WIN_IMG_HEIGHT - 3*SQUARE_SIZE
+WIN_IMG_X = WINDOW_WIDTH//2 - WIN_IMG_WIDTH + 2*SQUARE_SIZE
+WIN_IMG_Y = WINDOW_HEIGHT - WIN_IMG_HEIGHT - SQUARE_SIZE
 
 TRANSPARENT_ALPHA_NUM = 128
 
@@ -145,6 +145,13 @@ WRITE_MODE = "w"
 
 SAVE_KEYS = {pygame.K_1: "1", pygame.K_2: "2", pygame.K_3: "3", pygame.K_4: "4", pygame.K_5: "5", pygame.K_6: "6",
              pygame.K_7: "7", pygame.K_8: "8", pygame.K_9: "9"}
+
+LEFT = "left"
+RIGHT = "right"
+DOWN = "down"
+UP = "up"
+MOVE_KEYS = {pygame.K_LEFT: LEFT, pygame.K_RIGHT: RIGHT, pygame.K_DOWN: DOWN,
+             pygame.K_UP: UP}
 
 CHECK_DELAY = 1
 
