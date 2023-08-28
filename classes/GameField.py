@@ -61,6 +61,8 @@ class GameField:
             # Second check - no mine or other object in radius of 2 squares from the wanted position
             for row_index in range(mine_start_row_square, mine_end_row_square):
                 for col_index in range(mine_start_col_square, mine_end_col_square):
+                    if col_index >= COLS_COUNT:
+                        continue
                     current_square = self.board[row_index][col_index]
                     if current_square != EMPTY:
                         return False

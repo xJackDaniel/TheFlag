@@ -99,15 +99,24 @@ def main():
 
         # Check lose
         status = soldier.get_status()
+        guard_lose = False
         if guard.get_status() == LOSE_STATUS:
+            guard_lose = True
             status = LOSE_STATUS
         if status == LOSE_STATUS or status == WIN_STATUS:
             if status == LOSE_STATUS:
                 # Update image to exploding
-                screens.display_regular_screen(screenObj, soldier, SOLDIER_EXPLODED_IMG_PATH, guard)
+                img = SOLDIER_EXPLODED_IMG_PATH
+                if guard_lose:
+                    img = SOLDIER_GUARD_LOSE_IMG_PATH
+                screens.display_regular_screen(screenObj, soldier, img, guard)
                 # Draw defeat message
                 screenObj.draw_text(LOSE_MESSAGE, BLACK, LOSE_SIZE, LOSE_FONT, (LOSE_X, LOSE_Y))
             else:
+                # Update image to exploding
+                screens.display_regular_screen(screenObj, soldier, SOLDIER_WIN_IMG_PATH, guard)
+                # Draw the win img
+                screenObj.draw_object(WIN_IMG_PATH, (WIN_IMG_X, WIN_IMG_Y), (WIN_IMG_WIDTH, WIN_IMG_HEIGHT))
                 # Draw win message
                 screenObj.draw_text(WIN_MESSAGE, BLACK, WIN_SIZE, WIN_FONT, (WIN_X, WIN_Y))
 
