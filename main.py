@@ -101,14 +101,21 @@ def main():
         # Handle movement
         if status != NOT_RUNNING_STATUS:
             key_input = pygame.key.get_pressed()
+            moved = False
             if key_input[pygame.K_LEFT]:
                 soldier.move_x(right=False, game_field=game_field, screenObj=screenObj)
+                moved = True
             elif key_input[pygame.K_RIGHT]:
                 soldier.move_x(right=True, game_field=game_field, screenObj=screenObj)
+                moved = True
             elif key_input[pygame.K_DOWN]:
                 soldier.move_y(up=False, game_field=game_field, screenObj=screenObj)
+                moved = True
             elif key_input[pygame.K_UP]:
                 soldier.move_y(up=True, game_field=game_field, screenObj=screenObj)
+                moved = True
+            if moved:
+                pygame.time.wait(MOVE_DELAY)
 
             # Move the guard
             guard.move_guard(soldier)
