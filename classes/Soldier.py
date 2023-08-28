@@ -3,8 +3,8 @@ import random
 from consts import *
 
 
-# TODO: Add notes to class
 class Soldier:
+    """Class that represents the soldier in the game"""
     def __init__(self, game_field):
         self.in_bush = False
         self.img_path = SOLDIER_IMG_PATH
@@ -17,27 +17,46 @@ class Soldier:
         game_field.update_soldier_location(self)
 
     def get_x(self):
-        """Returns the x of the soldier"""
+        """
+            Returns the x of the soldier
+            :rtype: int
+        """
         return self.x
 
     def get_y(self):
-        """Returns the y of the soldier"""
+        """
+            Returns the y of the soldier
+            :rtype: int
+        """
         return self.y
 
     def is_in_bush(self):
-        """Returns if the soldier is in a bush"""
+        """
+            Returns if the soldier is in a bush
+            :rtype: bool
+        """
         return self.in_bush
 
     def set_status(self, status):
-        """Sets a status to the soldier object"""
+        """
+            Sets a status to the soldier object
+            :param status: str
+        """
         self.status = status
 
     def change_image(self, img):
-        """Change the soldier image"""
+        """
+            Change the soldier image
+            :param img: str (img path)
+        """
         self.img_path = img
 
     def draw_soldier(self, screenObj, transparent=False):
-        """Draws the soldier to the screen"""
+        """
+            Draws the soldier to the screen
+            :param screenObj: Screen Object
+            :param transparent: bool (optional)
+        """
         location = (self.x, self.y)
         size = (self.width, self.height)
         if self.in_bush:
@@ -45,7 +64,11 @@ class Soldier:
         screenObj.draw_object(self.img_path, location, size, transparent)
 
     def check_lose(self, game_field):
-        """Checks if one of the soldier legs touched a mine"""
+        """
+            Checks if one of the soldier legs touched a mine
+            :param game_field: GameField Object
+            :rtype: bool
+        """
         legs_indexes = self.get_legs_index()
         # Check if one of the legs is mine
         for leg_index in legs_indexes:
@@ -58,7 +81,11 @@ class Soldier:
         return False
 
     def check_win(self, game_field):
-        """Check if the soldier body touch the Flag"""
+        """
+            Check if the soldier body touch the Flag
+            :param game_field: GameField Object
+            :rtype: bool
+        """
         body_indexes = self.get_body_index()
         for body_index in body_indexes:
             x_body = body_index[X_INDEX]
@@ -70,7 +97,10 @@ class Soldier:
         return False
 
     def check_bush(self, screenObj):
-        """Returns if the soldier is in a bush"""
+        """
+            Returns if the soldier is in a bush
+            :param screenObj: Screen Object
+        """
         bushes = screenObj.get_bushes()
         in_bush = False
         for bush in bushes:
@@ -84,7 +114,10 @@ class Soldier:
         self.in_bush = in_bush
 
     def check_teleport(self, game_field):
-        """Checks if one of the soldier legs touched a teleport"""
+        """
+            Checks if one of the soldier legs touched a teleport
+            :param game_field: GameField Object
+        """
         if self.status != WIN_STATUS or self.status != LOSE_STATUS:
             legs_indexes = self.get_legs_index()
             # Check if one of the legs is TELEPORT
@@ -98,7 +131,11 @@ class Soldier:
                     self.teleport(game_field, current_teleport)
 
     def teleport(self, game_field, current_teleport):
-        """Teleports to another teleport"""
+        """
+            Teleports to another teleport
+            :param game_field: GameField Object
+            :param current_teleport: tuple (x, y)
+        """
         teleport_location = (current_teleport[X_INDEX] * SQUARE_SIZE, current_teleport[Y_INDEX] * SQUARE_SIZE)
         # Choose another teleport
         all_teleports = game_field.get_teleports().copy()
@@ -113,7 +150,12 @@ class Soldier:
         self.status = TELEPORT_STATUS
 
     def move_x(self, right: bool, game_field, screenObj):
-        """updating soldier position - only right and left """
+        """
+            updating soldier position - only right and left
+            :param right: bool
+            :param game_field: GameField Object
+            :param screenObj: Screen Object
+        """
         moved = False
         if right:
             # Make sure that the soldier is not crossing the screen size
@@ -136,7 +178,12 @@ class Soldier:
                 self.check_win(game_field)
 
     def move_y(self, up: bool, game_field, screenObj):
-        """updating soldier position - only up and down """
+        """
+            updating soldier position - only up and down
+            :param up: bool
+            :param game_field: GameField Object
+            :param screenObj: Screen Object
+        """
         moved = False
         if up:
             if not self.y == MIN_Y:
@@ -159,7 +206,10 @@ class Soldier:
                 self.check_win(game_field)
 
     def get_legs_index(self):
-        """Returns the index of the soldier legs"""
+        """
+            Returns the index of the soldier legs
+            :rtype: list
+        """
         indexes = []
         for col in range(SOLDIER_WIDTH_SQUARES):
             y_square = self.y // SQUARE_SIZE
@@ -168,7 +218,10 @@ class Soldier:
         return indexes
 
     def get_body_index(self):
-        """Returns the index of the soldier body"""
+        """
+            Returns the index of the soldier body
+            :rtype: list
+        """
         indexes = []
         for row in range(SOLDIER_HEIGHT_SQUARES):
             for col in range(SOLDIER_WIDTH_SQUARES):
@@ -182,18 +235,33 @@ class Soldier:
         return indexes
 
     def get_status(self):
-        """Returns the soldier status"""
+        """
+            Returns the soldier status
+            :rtype: str
+        """
         return self.status
 
     def update_position(self, location):
-        """Updates the soldier location - Used to load saves"""
+        """
+            Updates the soldier location - Used to load saves
+            :param location: tuple (x, y)
+        """
         self.x = location[X_INDEX]
         self.y = location[Y_INDEX]
 
     def blink(self, screens, screenObj, guard):
-        """Blink the soldier image"""
+        """
+            Blink the soldier image
+            :param screens: screens module
+            :param screenObj: Screen Object
+            :param guard: Guard Object
+        """
         def is_even(num):
-            """Returns if a num is even"""
+            """
+                Returns if a num is even
+                :param num: int
+                :rtype: bool
+            """
             return num % 2 == 0
         # Blink the soldier
         for blink in range(TELEPORT_BLINK_TIMES+1):

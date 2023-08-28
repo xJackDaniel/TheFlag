@@ -3,6 +3,7 @@ from consts import *
 
 
 class Guard(Soldier):
+    """Class that represents the Guard in the game"""
     def __init__(self, game_field):
         super().__init__(game_field=game_field)
         self.x = GUARD_START_X
@@ -11,15 +12,24 @@ class Guard(Soldier):
         self.img_path = GUARD_RIGHT_IMG_PATH
 
     def get_direction(self):
-        """Returns the direction"""
+        """
+            Returns the direction
+            :rtype: str
+        """
         return self.direction
 
     def set_direction(self, direction):
-        """Set a moving direction to the guard"""
+        """
+            Set a moving direction to the guard
+            :param direction: str
+        """
         self.direction = direction
 
     def move_guard(self, soldier):
-        """Move the guard on the screen"""
+        """
+            Move the guard on the screen
+            :param soldier: Soldier Object
+        """
         # Check if guard gets to end of screen
         if self.direction == RIGHT_DIRECTION and self.x + GUARD_WIDTH >= WINDOW_WIDTH:
             # We need to turn it to left
@@ -38,7 +48,10 @@ class Guard(Soldier):
         self.check_lose(soldier)
 
     def check_lose(self, soldier):
-        """Checks if one of the soldier touched the guard"""
+        """
+            Checks if one of the soldier touched the guard
+            :param soldier: Soldier Object
+        """
         if not soldier.is_in_bush():
             # If the soldier is in a bush, The guard can't kill him
             soldier_start_y = soldier.get_y()
@@ -51,7 +64,10 @@ class Guard(Soldier):
             return False
 
     def draw_guard(self, screenObj):
-        """Draws the guard to the screen"""
+        """
+            Draws the guard to the screen
+            :param screenObj: Screen Object
+        """
         location = (self.x, self.y)
         size = (self.width, self.height)
         screenObj.draw_object(self.img_path, location, size)

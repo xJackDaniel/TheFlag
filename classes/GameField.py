@@ -3,8 +3,8 @@ import ast
 from consts import *
 
 
-# TODO: Add notes to class
 class GameField:
+    """Class that represents the Game matrix"""
     def __init__(self):
         self.board = []
         self.mines = []
@@ -19,15 +19,24 @@ class GameField:
         self.board = [[EMPTY for col in range(COLS_COUNT)] for row in range(ROWS_COUNT)]
 
     def get_board(self):
-        """Returns the board"""
+        """
+            Returns the board
+            :rtype: list[[list]]
+        """
         return self.board
 
     def get_mines(self):
-        """Returns the mines"""
+        """
+            Returns the mines
+            :rtype: list
+        """
         return self.mines
 
     def get_teleports(self):
-        """Returns the teleports"""
+        """
+            Returns the teleports
+            :rtype: list
+        """
         return self.teleports
 
     def insert_mines(self):
@@ -86,7 +95,14 @@ class GameField:
                     self.insert_mine_position(mine_col_x, mine_row_y)
 
     def insert_object(self, start_x, end_x, start_y, end_y, value):
-        """Inserts an object to the matrix"""
+        """
+            Inserts an object to the matrix
+            :param start_x: int
+            :param end_x: int
+            :param start_y: int
+            :param end_y: int
+            :param value: str
+        """
         for row in range(start_y, end_y):
             for col in range(start_x, end_x):
                 # check that the soldier will not overwrite the mines or the flag
@@ -98,7 +114,11 @@ class GameField:
                     self.board[row][col] = value
 
     def insert_mine_position(self, x, y):
-        """Insert the mine position to matrix"""
+        """
+            Insert the mine position to matrix
+            :param x: int
+            :param y: int
+        """
         # Get the flag position
         mine_start_col_square = x // SQUARE_SIZE
         mine_start_row_square = y // SQUARE_SIZE
@@ -109,7 +129,11 @@ class GameField:
         self.insert_object(mine_start_col_square, mine_end_col_square, mine_start_row_square, mine_end_row_square, MINE)
 
     def insert_teleport_position(self, x, y):
-        """Insert the teleport position to matrix"""
+        """
+            Insert the teleport position to matrix
+            :param x: int
+            :param y: int
+        """
         # Get the flag position
         teleport_start_col_square = x // SQUARE_SIZE
         teleport_start_row_square = y // SQUARE_SIZE
@@ -131,7 +155,10 @@ class GameField:
         self.insert_object(flag_start_col_square, flag_end_col_square, flag_start_row_square, flag_end_row_square, FLAG)
 
     def update_soldier_location(self, soldier):
-        """Updates the soldier location in the grid"""
+        """
+            Updates the soldier location in the grid
+            :param soldier: Soldier Object
+        """
         # Reset the board where soldier
         self.board = [[EMPTY if val == SOLDIER else val for val in subl] for subl in self.board]
 
@@ -145,18 +172,30 @@ class GameField:
         self.insert_object(soldier_start_col_square, soldier_end_col_square, soldier_start_row_square,
                            soldier_end_row_square, SOLDIER)
 
-        # print('\n'.join(map(','.join, self.board)))
-        # print()
 
-    def load_save(self, data, screen, soldier, guard):
-        """Loads a save to current game"""
+    def load_save(self, data, screenObj, soldier, guard):
+        """
+            Loads a save to current game
+            :param data: pandas DataFrame
+            :param screenObj: Screen Object
+            :param soldier: Soldier Object
+            :param guard: Guard Object
+        """
 
         def remove_nan(lst):
-            """Removes all nan values from list"""
+            """
+                Removes all nan values from list
+                :param lst: list
+                :rtype: list
+            """
             return list(filter(lambda a: str(a) != DATA_EMPTY_COL, lst))
 
         def get_valid_lst(lst):
-            """Gets a str list and returns a valid python list"""
+            """
+                Gets a str list and returns a valid python list
+                :param lst: list
+                :rtype: list
+            """
             for index, value in enumerate(lst):
                 lst[index] = ast.literal_eval(value)
             return lst
@@ -179,7 +218,7 @@ class GameField:
         self.board = new_board
         self.teleports = new_teleports_lst
         self.mines = new_mines_lst
-        screen.update_bushes(new_bushes_lst)
+        screenObj.update_bushes(new_bushes_lst)
         soldier.update_position(new_soldier_location)
         guard.update_position(new_guard_location)
         guard.set_direction(new_guard_direction)
@@ -194,7 +233,12 @@ class GameField:
         """Inserting teleports to the grid"""
 
         def check_teleport(x, y):
-            """Check if there is a space between the teleport to other mines and objects"""
+            """
+                Check if there is a space between the teleport to other mines and objects
+                :param x: int
+                :param y: int
+                :rtype: bool
+            """
             # Get the flag position
             teleport_start_col_square = x // SQUARE_SIZE - TELEPORT_SPACE_SQUARES
             teleport_start_row_square = y // SQUARE_SIZE - TELEPORT_SPACE_SQUARES
@@ -226,7 +270,12 @@ class GameField:
                     self.insert_teleport_position(teleport_col_x, teleport_row_y)
 
     def get_teleport_location(self, col_x, row_y):
-        """Returns the teleport location as a tuple like (x,y)"""
+        """
+            Returns the teleport location as a tuple like (x,y)
+            :param col_x: int
+            :param row_y: int
+            :rtype: tuple (col, row)
+        """
         # Try to move left to find the start of the teleport
         found = False
         while not found:
